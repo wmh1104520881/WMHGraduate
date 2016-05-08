@@ -53,7 +53,6 @@ public class MoneyReportFragment extends PagerFragment {
 
     public final static int LINE_DAYS = 31;
     public final static int MAX_MONEY = 2000;
-    public final static int ONE_KILOMETER = 1000;
     public final static int ONE_YEAR_MONTH = 12;
 
     public int[] days;
