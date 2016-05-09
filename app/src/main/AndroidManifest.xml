@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <uses-permission android:name="android.permission.CAMERA"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,6 +30,8 @@
         <activity android:name="mhwang.com.activity.RecordDetailActivity"></activity>
         <!--记录列表界面-->
         <activity android:name="mhwang.com.activity.RecordListActivity"></activity>
+        <!--理财网站列表界面-->
+        <activity android:name="mhwang.com.activity.FinaceListActivity"></activity>
         <!--选择类型对话框-->
         <activity android:name="mhwang.com.dialog.SelectTypeDialog"
             android:theme="@style/Theme.AppCompat.Dialog"></activity>
