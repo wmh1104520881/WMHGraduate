@@ -23,6 +23,7 @@ public class Record {
     private int month;          // 记录的月份
     private int day;            // 记录的日期（某月的某一日）
     private String photoPath;  // 图片路径
+    private boolean isSelect;    // 是否删除标志
 
     public  Record(){
         time = "2016.04.09.12:22";
@@ -36,12 +37,18 @@ public class Record {
         month = 4;
         day = 20;
         photoPath = "";
+        userId = 0;
+        isSelect = false;
     }
 
     public  Record(String time,String name,double money){
         this.time = time;
         this.name = name;
         this.money = money;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
     }
 
     public String getPhotoPath() {
@@ -154,5 +161,9 @@ public class Record {
 
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
+    }
+
+    public void setIsSelect(boolean isSelect) {
+        this.isSelect = isSelect;
     }
 }

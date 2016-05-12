@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,6 +25,10 @@ public class RecordAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<Record> records;
     private LayoutInflater inflater;
+    /**
+     *  是否删除模式
+     */
+    private boolean isDelMode = false;
 
     public RecordAdapter(Context context, ArrayList<Record> records) {
         this.context = context;
@@ -57,6 +62,20 @@ public class RecordAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
+    /** 设置是否删除模式
+     * @param isDel
+     */
+    public void setDelMode(boolean isDel){
+        isDelMode = isDel;
+    }
+
+    /** 判断是否处于删除模式
+     * @return
+     */
+    public boolean isDelMode() {
+        return isDelMode;
+    }
+
     /** 获取数据集
      * @return
      */
@@ -74,21 +93,30 @@ public class RecordAdapter extends BaseAdapter{
             holder.tv_date = (TextView) convertView.findViewById(R.id.tv_item_record_date);
             holder.tv_type = (TextView) convertView.findViewById(R.id.tv_item_record_type);
             holder.tv_money = (TextView) convertView.findViewById(R.id.tv_item_record_money);
+            holder.iv_check = (ImageView) convertView.findViewById(R.id.iv_item_record_check);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
+        }
+        if (isDelMode){
+            holder.iv_check.setVisibility(View.VISIBLE);
+            holder.iv_check.setImageResource(record.isSelect() ? R.drawable.ic_checked
+            : R.drawable.ic_uncheck);
+        }else {
+            holder.iv_check.setVisibility(View.GONE);
         }
         String date = record.getDay()+"日"+record.getTime();
         String type = record.getType()+"->"+record.getTypeChild();
         String status = record.getStatus();
         holder.tv_date.setText(date);
         holder.tv_type.setText(type);
-        holder.tv_money.setTextColor(status.equals("支出") ? Color.GREEN : Color.RED);
+        holder.tv_money.setTextColor(status.equals("支出") ? Color.RED : Color.GREEN);
         holder.tv_money.setText(NumberFormat.format(record.getMoney()));
         return convertView;
     }
 
     private static class ViewHolder{
+        ImageView iv_check;
         TextView tv_date;
         TextView tv_type;
         TextView tv_money;

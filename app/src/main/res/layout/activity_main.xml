@@ -100,6 +100,7 @@
                 android:text="@string/default_user_name"/>
 
         </RelativeLayout>
+        <!--
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,6 +110,7 @@
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/margin_normal"
             android:text="@string/setting"/>
+            -->
 
         <!--登陆或个人信息-->
         <FrameLayout
@@ -116,8 +118,7 @@
             android:layout_height="match_parent"
             android:id="@+id/fl_user_login_status"
             android:layout_below="@id/drawer_title"
-            android:layout_above="@id/btn_setting"
-            android:background="@color/red"></FrameLayout>
+            android:background="@color/blue"></FrameLayout>
 
     </RelativeLayout>
 

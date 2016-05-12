@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import mhwang.com.util.NumberFormat;
  * 创建时间：2016/4/7
  */
 public class MoneyDetailFragment extends PagerFragment {
-
+    public static final int ONE_YEAR_MONTH = 12;
     /**
      *  月份列表
      */
@@ -47,11 +48,24 @@ public class MoneyDetailFragment extends PagerFragment {
     private TextView tv_surplus;
     private TextView tv_income;
     private TextView tv_outcome;
+    private TextView tv_year;
+
+    private ImageButton ib_previous;
+    private ImageButton ib_next;
+
 
 
     private double totalIncome = 0.00;
     private double totalOutcome = 0.00;
     private double totalSurplus = 0.00;
+
+    private int year;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        year = DateUtil.getInstance().getYear();
+    }
 
     @Nullable
     @Override
@@ -81,11 +95,25 @@ public class MoneyDetailFragment extends PagerFragment {
         elv_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Record record = (Record) adapter.getChild(groupPosition,childPosition);
+                Record record = (Record) adapter.getChild(groupPosition, childPosition);
                 Intent intent = new Intent(getActivity(), RecordDetailActivity.class);
-                intent.putExtra(RecordDetailFragment.KEY_RECORD_ID,record.getId());
+                intent.putExtra(RecordDetailFragment.KEY_RECORD_ID, record.getId());
                 startActivity(intent);
                 return true;
+            }
+        });
+        ib_previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                year -= 1;
+                updateData();
+            }
+        });
+        ib_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                year += 1;
+                updateData();
             }
         });
     }
@@ -95,13 +123,20 @@ public class MoneyDetailFragment extends PagerFragment {
      */
     public void updateData(){
         LogUitl.showLog("MoneyDetailFragment", "updateData");
+        clearData();
+        getData(year);
+        adapter.notifyDataSetChanged();
+        showData();
+    }
+
+    /**
+     * 清除数据
+     */
+    private void clearData(){
         groups.clear();
         childs.clear();
         totalIncome = 0.00;
         totalOutcome = 0.00;
-        getData();
-        adapter.notifyDataSetChanged();
-        showData();
     }
 
     /**
@@ -112,6 +147,9 @@ public class MoneyDetailFragment extends PagerFragment {
         tv_income = (TextView) mView.findViewById(R.id.tv_detail_income);
         tv_surplus = (TextView) mView.findViewById(R.id.tv_detail_surplus);
         tv_outcome = (TextView) mView.findViewById(R.id.tv_detail_outcome);
+        tv_year = (TextView) mView.findViewById(R.id.tv_money_detail_year);
+        ib_previous = (ImageButton) mView.findViewById(R.id.ib_money_detail_previous);
+        ib_next = (ImageButton) mView.findViewById(R.id.ib_money_detail_next);
     }
 
     /**
@@ -121,6 +159,7 @@ public class MoneyDetailFragment extends PagerFragment {
         tv_income.setText(NumberFormat.format(totalIncome));
         tv_outcome.setText(NumberFormat.format(totalOutcome));
         tv_surplus.setText(NumberFormat.format(totalSurplus));
+        tv_year.setText(year+"年");
     }
 
     /**
@@ -134,17 +173,21 @@ public class MoneyDetailFragment extends PagerFragment {
         groups = new ArrayList<>();
         childs = new ArrayList<>();
 
-        getData();
+        getData(year);
 
     }
 
     /**
      *  获取数据库数据
      */
-    private void getData(){
-        // 获取当前月份
-        int month = DateUtil.getInstance().getMonth();
-        int year = DateUtil.getInstance().getYear();
+    private void getData(int year){
+        int curYear = DateUtil.getInstance().getYear();
+        int month = 0;
+        if (year != curYear){
+            month = ONE_YEAR_MONTH;
+        }else{
+            month = DateUtil.getInstance().getMonth();
+        }
 
         for (int i = 1; i <= month; i++){
             DateRecord drecord = new DateRecord();

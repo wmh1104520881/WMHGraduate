@@ -483,7 +483,8 @@ public class MoneyReportFragment extends PagerFragment {
 
     @Override
     public void updateData() {
-
+        int year = DateUtil.getInstance().getYear();
+        updateMonthData(year);
     }
 
     private class ValueTouchListener implements ColumnChartOnValueSelectListener {

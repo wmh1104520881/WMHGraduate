@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ import mhwang.com.bean.User;
 import mhwang.com.database.DBUtil;
 import mhwang.com.util.DateUtil;
 import mhwang.com.util.LogUitl;
+import mhwang.com.util.UserUtil;
 
 public class MainActivity extends FragmentActivity {
     public static final int MENU_COUNT = 5;
@@ -78,6 +80,7 @@ public class MainActivity extends FragmentActivity {
     private UserInfoFragment uif;
 
     private Button btn_logout;
+    private TextView tv_userName;
 
     private void showLog(String msg){
         Log.e("---MainActivity--->",msg);
@@ -168,6 +171,13 @@ public class MainActivity extends FragmentActivity {
                 ft.remove(uif);
                 ft.show(lf);
                 ft.commit();
+                // 将当前用户恢复为游客
+                UserUtil.getInstance().logOutToDefaultUser();
+                // 将登陆的用户设置成默认用户
+                tv_userName.setText(UserUtil.getInstance().getCurUser().getName());
+                int curItem = mViewPager.getCurrentItem();
+                PagerFragment fragment = (PagerFragment)mFragments.get(curItem);
+                fragment.updateData();
                 btn_logout.setVisibility(View.GONE);
             }
         });
@@ -186,6 +196,7 @@ public class MainActivity extends FragmentActivity {
         mMenuButtons[REPORT] = (RadioButton) findViewById(R.id.rb_report);
         mMenuButtons[MORE] = (RadioButton) findViewById(R.id.rb_more);
         btn_logout = (Button) findViewById(R.id.btn_logout);
+        tv_userName = (TextView) findViewById(R.id.tv_user_name);
 
         // 设置默认的抽屉fragment
         setDefaultDrawerFragment();
@@ -221,13 +232,18 @@ public class MainActivity extends FragmentActivity {
      */
     private void addLoginFragment(User user){
         uif = new UserInfoFragment();
-        uif.setUser(user);
         FragmentTransaction ftUif = fm.beginTransaction();
+        // 将登陆的用户设置成当前用户
+        UserUtil.getInstance().setCurUser(user);
+        int curItem = mViewPager.getCurrentItem();
+        PagerFragment fragment = (PagerFragment)mFragments.get(curItem);
+        fragment.updateData();
+        tv_userName.setText(user.getName());
+        btn_logout.setVisibility(View.VISIBLE);
         // 添加用户信息界面，隐藏登陆界面，登陆成功后显示退出按钮
         ftUif.add(R.id.fl_user_login_status, uif);
         ftUif.hide(lf);
         ftUif.commit();
-        btn_logout.setVisibility(View.VISIBLE);
     }
 
     /**

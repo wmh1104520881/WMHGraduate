@@ -1,9 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="@color/background"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/ll_record_bottom_bar">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:orientation="horizontal"
+            android:layout_height="@dimen/item_height_normal"
+            android:id="@+id/ll_record_list_all_select"
+            android:gravity="center"
+            android:layout_weight="4">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/iv_record_list_all_select"
+                android:src="@drawable/ic_box_unchecked"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/all_select" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/item_height_normal"
+            android:id="@+id/tv_record_list_close"
+            android:gravity="center"
+            android:text="@string/close"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_marginRight="@dimen/margin_normal"/>
+    </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height_normal"
+            android:background="@drawable/button_delete_selector"
+            android:id="@+id/btn_record_list_del"
+            android:text="@string/delete"
+            android:layout_margin="@dimen/margin_normal"/>
+    </LinearLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/ll_record_bottom_bar"
         android:id="@+id/lv_record_list"></ListView>
-</LinearLayout>
+</RelativeLayout>

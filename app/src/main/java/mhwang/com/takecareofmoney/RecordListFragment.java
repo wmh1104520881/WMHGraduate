@@ -9,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -35,15 +39,28 @@ public class RecordListFragment extends Fragment {
 
     private View mView;
     private ListView lv_list;
+    private LinearLayout ll_bottomBar;
+    private LinearLayout ll_allSelect;
+    private Button btn_delete;
+    private TextView tv_close;
+    private ImageView iv_allSelect;
     private RecordAdapter adapter;
 
     private ArrayList<Record> records;
 
     private int recordPos;
     private int recordId;
+    /**
+     *  是否删除
+     */
+    private boolean isDel = false;
+    /**
+     * 是否全选
+     */
+    private boolean isAllSelect = false;
 
     private void showLog(String msg){
-        Log.d("--RecordListFragment-->",msg);
+        Log.d("--RecordListFragment-->", msg);
     }
 
     /** 获取实例对象
@@ -81,12 +98,89 @@ public class RecordListFragment extends Fragment {
         lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Record record = (Record)adapter.getItem(position);
-                recordPos = position;
-                recordId = record.getId();
-                Intent intent = new Intent(getActivity(), RecordDetailActivity.class);
-                intent.putExtra(RecordDetailFragment.KEY_RECORD_ID,recordId);
-                startActivityForResult(intent, Request.RECORD_DETAIL);
+                Record record = (Record) adapter.getItem(position);
+                // 如果处于删除模式，则选中
+                if (adapter.isDelMode()) {
+                    record.setIsSelect(record.isSelect() ? false : true);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    recordPos = position;
+                    recordId = record.getId();
+                    Intent intent = new Intent(getActivity(), RecordDetailActivity.class);
+                    intent.putExtra(RecordDetailFragment.KEY_RECORD_ID, recordId);
+                    startActivityForResult(intent, Request.RECORD_DETAIL);
+                }
+            }
+        });
+        lv_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (ll_bottomBar.getVisibility() == View.GONE) {
+                    ll_bottomBar.setVisibility(View.VISIBLE);
+                    adapter.setDelMode(true);
+                } else {
+                    ll_bottomBar.setVisibility(View.GONE);
+                    adapter.setDelMode(false);
+                }
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
+        // 全选
+        ll_allSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isAllSelect){
+                    iv_allSelect.setImageResource(R.drawable.ic_box_unchecked);
+                    // 将所有记录置为未选中
+                    for(Record record : records){
+                        record.setIsSelect(false);
+                    }
+                    isAllSelect = false;
+                }else {
+                    iv_allSelect.setImageResource(R.drawable.ic_box_checked);
+                    // 将所有记录置为选中
+                    for(Record record : records){
+                        record.setIsSelect(true);
+                    }
+                    isAllSelect = true;
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+        // 关闭
+        tv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               ll_bottomBar.setVisibility(View.GONE);
+                adapter.setDelMode(false);
+                for(Record record : records){
+                    record.setIsSelect(false);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+        // 删除
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DBUtil dbUtil = DBUtil.getInstance(getActivity());
+                for(int i = 0; i < records.size(); i++){
+                    Record record = records.get(i);
+                    if (record.isSelect()){
+                        dbUtil.deleteRecord(record.getId());
+                        records.remove(i);
+                        i--;
+                    }
+                }
+                // 关闭删除模式
+                adapter.setDelMode(false);
+                // 隐藏删除框
+                ll_bottomBar.setVisibility(View.GONE);
+                // 将全选置为false
+                isAllSelect = false;
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -96,6 +190,11 @@ public class RecordListFragment extends Fragment {
      */
     private void initComponent() {
         lv_list = (ListView) mView.findViewById(R.id.lv_record_list);
+        ll_bottomBar = (LinearLayout) mView.findViewById(R.id.ll_record_bottom_bar);
+        ll_allSelect = (LinearLayout) mView.findViewById(R.id.ll_record_list_all_select);
+        btn_delete = (Button) mView.findViewById(R.id.btn_record_list_del);
+        tv_close = (TextView) mView.findViewById(R.id.tv_record_list_close);
+        iv_allSelect = (ImageView) mView.findViewById(R.id.iv_record_list_all_select);
         adapter = new RecordAdapter(getActivity(),records);
     }
 

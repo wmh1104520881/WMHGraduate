@@ -32,6 +32,7 @@ import mhwang.com.dialog.TakePhotoDialog;
 import mhwang.com.takecareofmoney.R;
 import mhwang.com.util.DateUtil;
 import mhwang.com.util.PictureUtil;
+import mhwang.com.util.UserUtil;
 
 /**
  * 项目名称：
@@ -239,6 +240,7 @@ public class RecordMoneyActivity extends Activity {
         record.setDay(util.getDay());
         record.setTime(util.getCurrentTime());
         record.setPhotoPath(photoPath);
+        record.setUserId(UserUtil.getInstance().getCurUserId());
 
         DBUtil.getInstance(this).insertRecord(record);
     }

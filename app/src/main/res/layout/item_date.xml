@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_item_income"
-        android:textColor="@color/red"
+        android:textColor="@color/green"
         android:text="111"
         android:textSize="@dimen/text_size_small"/>
 
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_item_output"
         android:text="111"
-        android:textColor="@color/green"
+        android:textColor="@color/red"
         android:textSize="@dimen/text_size_small"/>
     </LinearLayout>
 

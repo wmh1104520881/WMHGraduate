@@ -46,6 +46,7 @@ public class AccountFragment extends PagerFragment{
     private double totalOutcome = 0.00;
     private double totalSurplus = 0.00;
     private double negativeAsset = 0.00;
+    private DBUtil dbUtil;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,8 +93,15 @@ public class AccountFragment extends PagerFragment{
      *  初始化数据
      */
     private void initData() {
-        DBUtil dbUtil = DBUtil.getInstance(getActivity());
+        dbUtil = DBUtil.getInstance(getActivity());
         accounts = dbUtil.readAccounts();
+        getDataFromDB();
+    }
+
+    /**
+     *  从数据库获取数据
+     */
+    private void getDataFromDB(){
         for(Account account : accounts){
             ArrayList<Record> records = dbUtil.readRecordsByAccount(account.getName());
             double outcome = 0.00;
@@ -121,6 +129,12 @@ public class AccountFragment extends PagerFragment{
 
     @Override
     public void updateData() {
-
+        totalIncome = 0.00;
+        totalOutcome = 0.00;
+        totalSurplus = 0.00;
+        negativeAsset = 0.00;
+        getDataFromDB();
+        showData();
+        adapter.notifyDataSetChanged();
     }
 }

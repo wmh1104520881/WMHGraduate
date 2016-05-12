@@ -138,7 +138,7 @@ public class DBHelper extends SQLiteOpenHelper {
             for (int j = 1; j <= 12; j++) {
                 // 日
                 for (int h = 1; h < 30; h++) {
-                    int recordCount = 10;
+                    int recordCount = 5;
                     for (int c = 0; c <= recordCount; c++) {
                         Record record = createRecord(i, j, h);
                         insertRecord(record, db);

@@ -152,7 +152,7 @@ public class RecordDetailFragment extends Fragment {
      */
     private void showBigPhoto(){
         Intent intent = new Intent(getActivity(), ShowBigPhotoActivity.class);
-        intent.putExtra(Request.KEY_PHOTO_PATH,record.getPhotoPath());
+        intent.putExtra(Request.KEY_PHOTO_PATH, record.getPhotoPath());
         startActivity(intent);
     }
 
@@ -163,10 +163,12 @@ public class RecordDetailFragment extends Fragment {
         if (record == null){
             return;
         }
-        Bitmap bitmap = PictureUtil.getBitmap(record.getPhotoPath());
-        Bitmap newBitmap = PictureUtil.resizeBitmap(bitmap,(int)getResources().getDimension(R.dimen.picture_width),
-                (int)getResources().getDimension(R.dimen.picture_height));
-        iv_photo.setImageBitmap(newBitmap);
+        if (record.getPhotoPath() != null) {
+            Bitmap bitmap = PictureUtil.getBitmap(record.getPhotoPath());
+            Bitmap newBitmap = PictureUtil.resizeBitmap(bitmap, (int) getResources().getDimension(R.dimen.picture_width),
+                    (int) getResources().getDimension(R.dimen.picture_height));
+            iv_photo.setImageBitmap(newBitmap);
+        }
         et_money.setText(NumberFormat.format(record.getMoney()));
         et_notes.setText(record.getNote());
         btn_status.setText(record.getStatus());

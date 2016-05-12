@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import mhwang.com.bean.User;
 import mhwang.com.database.DBUtil;
+import mhwang.com.util.UserUtil;
 
 /**
  * 项目名称：

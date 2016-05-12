@@ -14,8 +14,8 @@ public class User {
     private String info;
 
     public User(){
-        userId = 1;
-        name = "王明海";
+        userId = 0;
+        name = "游客";
         word = "书山有路勤为径，学海无涯苦作舟！";
         info = "桂林电子科技大学";
         password = "123456";

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import mhwang.com.bean.User;
+import mhwang.com.util.UserUtil;
 
 /**
  * 项目名称：
@@ -30,6 +31,7 @@ public class UserInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_userinfo,null);
+        user = UserUtil.getInstance().getCurUser();
         initComponent();
         return mView;
     }

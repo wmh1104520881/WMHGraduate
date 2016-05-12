@@ -394,7 +394,10 @@ public class HomeFragment extends PagerFragment {
 
     @Override
     public void updateData() {
-
+        initData();
+        initEvent();
+        showData();
+        showLog("updateData");
     }
 
     @Override

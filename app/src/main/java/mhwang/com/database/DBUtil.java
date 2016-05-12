@@ -19,6 +19,7 @@ import mhwang.com.takecareofmoney.R;
 import mhwang.com.util.DateUtil;
 import mhwang.com.util.LogUitl;
 import mhwang.com.util.RecordTypeToDBWordUtil;
+import mhwang.com.util.UserUtil;
 
 /**
  * 项目名称：
@@ -41,12 +42,14 @@ public class DBUtil {
     private DBHelper helper;
     private SQLiteDatabase sdb;
     private Context mContext;
+    private UserUtil userUtil;
 
 
     private DBUtil(Context context) {
         helper = new DBHelper(context);
         sdb = helper.getReadableDatabase();
         mContext = context;
+        userUtil = UserUtil.getInstance();
     }
 
     /** 实例化数据库工具类对象
@@ -116,6 +119,7 @@ public class DBUtil {
         values.put("day", record.getDay());
         values.put("time", record.getTime());
         values.put("picture",record.getPhotoPath());
+        values.put("userId",record.getUserId());
 
         showLog("add a record userId :" + record.getUserId() +
                 " money :" + record.getMoney() + " status :" + record.getStatus() +
@@ -131,14 +135,14 @@ public class DBUtil {
      */
     public ArrayList<Record> readRecordsByMonth(int year,int month){
         ArrayList<Record> records = new ArrayList<>();
-        showLog("READ MONTH IS " + month);
-        Cursor cursor = sdb.query(TABLE_RECORD, null, "year = ? AND month = ?",
-                new String[]{intToString(year),intToString(month)}, null, null, "day");
+        Cursor cursor = sdb.query(TABLE_RECORD, null, "year = ? AND month = ? AND userId = ?",
+                new String[]{intToString(year),intToString(month),intToString(userUtil.getCurUserId())}, null, null, "day");
         while (cursor.moveToNext()){
             Record record = getRecordFromDB(cursor);
             records.add(record);
         }
         cursor.close();
+        showLog("Line 144 read month data size is  " + records.size());
         return records;
     }
 
@@ -148,14 +152,14 @@ public class DBUtil {
      */
     public ArrayList<Record> readRecordsByYear(int year){
         ArrayList<Record> records = new ArrayList<>();
-        showLog("READ MONTH IS " + year);
-        Cursor cursor = sdb.query(TABLE_RECORD, null, "year = ?",
-                new String[]{Integer.toString(year)}, null, null, null);
+        Cursor cursor = sdb.query(TABLE_RECORD, null, "year = ? AND userId = ?",
+                new String[]{Integer.toString(year),intToString(userUtil.getCurUserId())}, null, null, null);
         while (cursor.moveToNext()){
             Record record = getRecordFromDB(cursor);
             records.add(record);
         }
         cursor.close();
+        showLog("Line 162 read year data size is  " + records.size());
         return records;
     }
 
@@ -163,12 +167,14 @@ public class DBUtil {
      * @return recordId
      */
     public Record readRecordById(int recordId){
-        Cursor cursor = sdb.query(TABLE_RECORD,null,"id = ?",
-                new String[]{intToString(recordId)},null,null,null);
+        Cursor cursor = sdb.query(TABLE_RECORD,null,"id = ? AND userId = ?",
+                new String[]{intToString(recordId),intToString(userUtil.getCurUserId())},null,null,null);
         Record record = null;
         if(cursor.moveToFirst()){
             record = getRecordFromDB(cursor);
         }
+        cursor.close();
+        showLog("Line 178 userUtil id is   " + userUtil.getCurUserId());
         return record;
     }
 
@@ -177,9 +183,11 @@ public class DBUtil {
      */
     public ArrayList<Record> readRecordsByType(String type){
         int month = DateUtil.getInstance().getMonth();
-        showLog("find the records month = "+month+" type is "+type);
-        Cursor cursor = sdb.query(TABLE_RECORD, null, "month = ? and type = ?",
-                new String[]{Integer.toString(month), type}, null, null, null);
+        int year = DateUtil.getInstance().getYear();
+        Cursor cursor = sdb.query(TABLE_RECORD, null,
+                "year = ? and month = ? and type = ? and userId = ?",
+                new String[]{intToString(year),intToString(month), type,intToString(userUtil.getCurUserId())},
+                null, null, null);
         if (cursor.getCount() == 0){
             cursor.close();
             showLog("not find the record !");
@@ -190,7 +198,7 @@ public class DBUtil {
             Record record = getRecordFromDB(cursor);
             records.add(record);
         }
-        showLog("get the type " + type + " data size is "+records.size());
+        showLog("LINE 203 get the type " + type + " data size is "+records.size());
         cursor.close();
         return records;
     }
@@ -199,10 +207,9 @@ public class DBUtil {
      *  获取某天的数据
      */
     public ArrayList<Record> readRecordsByDay(int year, int month,int day){
-        DateUtil util = DateUtil.getInstance();
-
-        Cursor cursor = sdb.query(TABLE_RECORD, null, "year = ? and month = ? and day = ?",
-                new String[]{Integer.toString(year), Integer.toString(month), Integer.toString(day)},
+        Cursor cursor = sdb.query(TABLE_RECORD, null,
+                "year = ? and month = ? and day = ? and userId = ?",
+                new String[]{intToString(year), intToString(month), intToString(day),intToString(userUtil.getCurUserId())},
                 null, null, null);
 
         ArrayList<Record> records = new ArrayList<>();
@@ -210,7 +217,7 @@ public class DBUtil {
             Record record = getRecordFromDB(cursor);
             records.add(record);
         }
-        showLog("get the month " + month + " day " + day + " data size is "+records.size());
+        showLog("Line 220 get the month " + month + " day " + day + " data size is "+records.size());
         cursor.close();
         return records;
     }
@@ -230,15 +237,18 @@ public class DBUtil {
         Cursor cursor;
         // 如果两个日期是在同一个月的
         if (startDay < endDay){
-            cursor = sdb.query(TABLE_RECORD,null,"day BETWEEN ? AND ? AND year = ? AND month = ?",
+            cursor = sdb.query(TABLE_RECORD,null,
+                    "day BETWEEN ? AND ? AND year = ? AND month = ? AND userId = ?",
                     new String[]{intToString(startDay),intToString(endDay),
-                    intToString(startYear),intToString(startMonth)}
+                    intToString(startYear),intToString(startMonth),intToString(userUtil.getCurUserId())}
             ,null,null,null);
             showLog("the two date "+startDay+" and "+endDay+" is in the same month");
         }else{
             cursor = sdb.query(TABLE_RECORD,null,"((month = ? AND day >= ?) OR" +
-                    "(month = ? AND day <= ?)) AND year = ?",new String[]{intToString(startMonth),
-                            intToString(startDay), intToString(endMonth), intToString(endDay), intToString(startYear)},
+                    "(month = ? AND day <= ?)) AND year = ? AND userId = ?",
+                    new String[]{intToString(startMonth), intToString(startDay),
+                            intToString(endMonth), intToString(endDay),
+                            intToString(startYear),intToString(userUtil.getCurUserId())},
                     null,null,null);
         }
 
@@ -248,7 +258,7 @@ public class DBUtil {
             records.add(record);
         }
         cursor.close();
-        showLog("read the time " + startDate + " to " + endDate + " data" + " result size is " + records.size());
+        showLog("Line 261 read the time " + startDate + " to " + endDate + " data" + " result size is " + records.size());
         return records;
 
     }
@@ -259,14 +269,14 @@ public class DBUtil {
      */
     public ArrayList<Record> readRecordsByAccount(String account){
         int month = DateUtil.getInstance().getMonth();
-        Cursor cursor = sdb.query(TABLE_RECORD, null, "month = ? AND account = ?",
-                new String[]{Integer.toString(month), account}, null, null, null);
+        Cursor cursor = sdb.query(TABLE_RECORD, null, "month = ? AND account = ? AND userId = ?",
+                new String[]{Integer.toString(month), account,intToString(userUtil.getCurUserId())}, null, null, null);
         ArrayList<Record> records = new ArrayList<>();
         while (cursor.moveToNext()){
             Record record = getRecordFromDB(cursor);
             records.add(record);
         }
-        showLog("lien 269 read the record month "+month+" by account "+account+" size is "+records.size());
+        showLog("lien 279 read the record month "+month+" by account "+account+" size is "+records.size());
         cursor.close();
         return records;
     }
@@ -305,23 +315,23 @@ public class DBUtil {
             // 如果日期不为0,查询具体日期,否则查询具体月份
             if (day != 0){
                 cursor = sdb.query(TABLE_RECORD,null,
-                        "year = ? And month = ? And day = ? And "+word+"=?",
+                        "year = ? And month = ? And day = ? And "+word+"=? AND userId = ?",
                         new String[]{intToString(year),intToString(month),
-                        intToString(day),key},null,null,null);
+                        intToString(day),key,intToString(userUtil.getCurUserId())},null,null,null);
             }else{
-                cursor = sdb.query(TABLE_RECORD,null,"year = ? AND month = ? AND "+word+"=?",
-                        new String[]{intToString(year),intToString(month),key},null,null,null);
+                cursor = sdb.query(TABLE_RECORD,null,"year = ? AND month = ? AND "+word+"=? AND userId = ?",
+                        new String[]{intToString(year),intToString(month),key,intToString(userUtil.getCurUserId())},null,null,null);
             }
         }else{
-            cursor = sdb.query(TABLE_RECORD,null,"year = ? AND "+word+"=?",
-                    new String[]{intToString(year),key},null,null,null);
+            cursor = sdb.query(TABLE_RECORD,null,"year = ? AND "+word+"=? AND userId = ?",
+                    new String[]{intToString(year),key,intToString(userUtil.getCurUserId())},null,null,null);
         }
 
         while (cursor.moveToNext()){
             Record record = getRecordFromDB(cursor);
             records.add(record);
         }
-        showLog("Line 324 readRecordsByDate the date is "+date+"key is "+key+" result size is "+records.size());
+        showLog("Line 334 readRecordsByDate the date is "+date+"key is "+key+" result size is "+records.size());
         cursor.close();
         return records;
 
@@ -355,23 +365,24 @@ public class DBUtil {
             // 如果日期不为0,查询具体日期,否则查询具体月份
             if (day != 0){
                 cursor = sdb.query(TABLE_RECORD,null,
-                        "year = ? And month = ? And day = ?",
+                        "year = ? And month = ? And day = ? AND userId = ?",
                         new String[]{intToString(year),intToString(month),
-                                intToString(day)},null,null,null);
+                                intToString(day),intToString(userUtil.getCurUserId())},null,null,null);
             }else{
-                cursor = sdb.query(TABLE_RECORD,null,"year = ? AND month = ?",
-                        new String[]{intToString(year),intToString(month)},null,null,null);
+                cursor = sdb.query(TABLE_RECORD,null,"year = ? AND month = ? And userId = ?",
+                        new String[]{intToString(year),intToString(month),
+                                intToString(userUtil.getCurUserId())},null,null,null);
             }
         }else{
-            cursor = sdb.query(TABLE_RECORD,null,"year = ?",
-                    new String[]{intToString(year)},null,null,null);
+            cursor = sdb.query(TABLE_RECORD,null,"year = ? AND userId = ?",
+                    new String[]{intToString(year),intToString(userUtil.getCurUserId())},null,null,null);
         }
 
         while (cursor.moveToNext()){
             Record record = getRecordFromDB(cursor);
             records.add(record);
         }
-        showLog("line 374 readRecordsByDate the date is "+date+" result size is "+records.size());
+        showLog("line 385 readRecordsByDate the date is "+date+" result size is "+records.size());
         cursor.close();
         return records;
     }
@@ -388,8 +399,8 @@ public class DBUtil {
         if (word.isEmpty()){
             return records;
         }
-        Cursor cursor = sdb.query(TABLE_RECORD,null,word+"=?",
-                new String[]{key},null,null,null);
+        Cursor cursor = sdb.query(TABLE_RECORD,null,word+"=? And userId = ?",
+                new String[]{key,intToString(userUtil.getCurUserId())},null,null,null);
         while (cursor.moveToNext()){
             Record record = getRecordFromDB(cursor);
             records.add(record);
@@ -414,7 +425,8 @@ public class DBUtil {
         values.put("month",record.getMonth());
         values.put("day",record.getDay());
         values.put("time",record.getTime());
-        sdb.update(TABLE_RECORD, values, "id = ?", new String[]{intToString(record.getId())});
+        sdb.update(TABLE_RECORD, values, "id = ?",
+                new String[]{intToString(record.getId())});
     }
 
 
@@ -426,7 +438,8 @@ public class DBUtil {
         ContentValues values = new ContentValues();
         values.put("budget",budget.getBudget());
         values.put("surplus",budget.getSurplus());
-        sdb.update(TABLE_BUDGET, values, "type = ?", new String[]{budget.getType()});
+        sdb.update(TABLE_BUDGET, values, "type = ? AND userId = ?",
+                new String[]{budget.getType(),intToString(userUtil.getCurUserId())});
     }
 
     /** 读取预算类型

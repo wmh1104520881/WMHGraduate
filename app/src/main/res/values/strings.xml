@@ -50,9 +50,14 @@
     <string name="search_hint">请输入搜索关键词</string>
     <string name="date">日期</string>
     <string name="look">查看</string>
+    <string name="finace_list">财经列表</string>
+    <string name="all_select">全选</string>
+    <string name="all_unselect">全不选</string>
+    <string name="close">关闭</string>
+
 
     <!--默认字符-->
-    <string name="default_user_name">老司机带带我</string>
+    <string name="default_user_name">游客</string>
     <string name="default_month">4</string>
     <string name="default_year">/2016</string>
     <string name="default_money">0.00</string>
