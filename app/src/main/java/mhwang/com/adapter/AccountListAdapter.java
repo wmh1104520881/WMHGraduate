@@ -49,8 +49,8 @@ public class AccountListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = inflater.inflate(R.layout.item_account,null);
         TextView tv_name = (TextView) convertView.findViewById(R.id.tv_item_account_name);
-        TextView tv_status = (TextView) convertView.findViewById(R.id.tv_item_account_status);
+//        TextView tv_status = (TextView) convertView.findViewById(R.id.tv_item_account_status);
 //        tv_name.setText(accounts.get(position).);
-        return null;
+        return convertView;
     }
 }

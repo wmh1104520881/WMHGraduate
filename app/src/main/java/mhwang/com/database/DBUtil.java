@@ -263,20 +263,19 @@ public class DBUtil {
 
     }
 
-    /** 读取本月某个账户下的记录
+    /** 读取某个账户下的记录
      * @param account
      * @return
      */
     public ArrayList<Record> readRecordsByAccount(String account){
-        int month = DateUtil.getInstance().getMonth();
-        Cursor cursor = sdb.query(TABLE_RECORD, null, "month = ? AND account = ? AND userId = ?",
-                new String[]{Integer.toString(month), account,intToString(userUtil.getCurUserId())}, null, null, null);
+        Cursor cursor = sdb.query(TABLE_RECORD, null, "account = ? AND userId = ?",
+                new String[]{account,intToString(userUtil.getCurUserId())}, null, null, null);
         ArrayList<Record> records = new ArrayList<>();
         while (cursor.moveToNext()){
             Record record = getRecordFromDB(cursor);
             records.add(record);
         }
-        showLog("lien 279 read the record month "+month+" by account "+account+" size is "+records.size());
+        showLog("lien 279 read the record "+" by account "+account+" size is "+records.size());
         cursor.close();
         return records;
     }
@@ -468,7 +467,7 @@ public class DBUtil {
         while (cursor.moveToNext()){
             Account account = new Account();
             account.setName(cursor.getString(cursor.getColumnIndex("name")));
-            account.setMoney(cursor.getDouble(cursor.getColumnIndex("money")));
+//            account.setMoney(cursor.getDouble(cursor.getColumnIndex("money")));
             accounts.add(account);
         }
         cursor.close();

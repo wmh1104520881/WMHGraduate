@@ -247,7 +247,7 @@ public class HomeFragment extends PagerFragment {
         int day = DateUtil.getInstance().getDay();
         int month = dateUtil.getMonth();
         int year = dateUtil.getYear();
-        ArrayList<Record> records = dbUtil.readRecordsByDay(year,month,day);
+        ArrayList<Record> records = dbUtil.readRecordsByDay(year, month, day);
         if (records.isEmpty()){
             today = new DateRecord("今天","还没有记录",0.00,0.00);
             return today;
@@ -259,7 +259,12 @@ public class HomeFragment extends PagerFragment {
                 outcome += record.getMoney();
             }
         }
-        String date = month+"月"+day+"日";
+        String date;
+        if (month >= 10) {
+            date = month + "月" + day + "日";
+        }else{
+            date = "0"+month+"月"+day+"日";
+        }
         today = new DateRecord("今天",date,income,outcome);
         return today;
     }
@@ -310,8 +315,12 @@ public class HomeFragment extends PagerFragment {
 
         // 获取本月时间
         int days = dateUtil.getDaysOfMonth();
-        String date = month + "月1日-"+ month+"月"+days+"日";
-
+        String date;
+        if (month >= 10) {
+            date = month + "月1日-" + month + "月" + days + "日";
+        }else{
+            date = "0"+month + "月1日-" + month + "月" + days + "日";
+        }
         double income = 0.00;
         double outcome = 0.00;
         for (Record record : records){

@@ -36,6 +36,7 @@ public class RecordListFragment extends Fragment {
     public static final int THIS_WEEK = 1;
     public static final int THIS_MONTH = 2;
     public static final int THIS_YEAR = 3;
+    public static final String[] TITLES = {"今天","本周","本月","本年"};
 
     private View mView;
     private ListView lv_list;
@@ -45,11 +46,17 @@ public class RecordListFragment extends Fragment {
     private TextView tv_close;
     private ImageView iv_allSelect;
     private RecordAdapter adapter;
+    private ImageView iv_back;
+    private TextView tv_title;
 
     private ArrayList<Record> records;
 
     private int recordPos;
     private int recordId;
+    /**
+     *  显示哪个页面的数据
+     */
+    private int fragmentId;
     /**
      *  是否删除
      */
@@ -88,6 +95,19 @@ public class RecordListFragment extends Fragment {
         initComponent();
         initEvent();
         return mView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showData();
+    }
+
+    /**
+     *  显示数据
+     */
+    private void showData() {
+        tv_title.setText(TITLES[fragmentId]);
     }
 
     /**
@@ -183,6 +203,13 @@ public class RecordListFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+        // 返回
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
     }
 
     /**
@@ -195,6 +222,9 @@ public class RecordListFragment extends Fragment {
         btn_delete = (Button) mView.findViewById(R.id.btn_record_list_del);
         tv_close = (TextView) mView.findViewById(R.id.tv_record_list_close);
         iv_allSelect = (ImageView) mView.findViewById(R.id.iv_record_list_all_select);
+        iv_back = (ImageView) mView.findViewById(R.id.iv_record_list_back);
+        tv_title = (TextView) mView.findViewById(R.id.tv_record_list_title);
+
         adapter = new RecordAdapter(getActivity(),records);
     }
 
@@ -202,7 +232,7 @@ public class RecordListFragment extends Fragment {
      *  初始化数据
      */
     private void initData(){
-        int fragmentId = getActivity().getIntent().getIntExtra(KEY_WHICH_FRAGMENT,-1);
+        fragmentId = getActivity().getIntent().getIntExtra(KEY_WHICH_FRAGMENT,-1);
         if (fragmentId == -1){
             return;
         }

@@ -26,7 +26,6 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final int version = 1;
     private Context mContext;
 
-
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, version);
         mContext = context;
@@ -40,6 +39,9 @@ public class DBHelper extends SQLiteOpenHelper {
             +"name text, "
             +"password text, "
             +"word text, "                 // 名言
+            +"sex text, "
+            +"age integer, "
+            +"number text, "
             +"info text)";                 // 个人信息
 
     /**
@@ -164,7 +166,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Record record = new Record();
 //        record.setName(type);
         // 生成随机账户
-        int accontIndex = (int)Math.random() * 5;
+        int accontIndex = (int)(Math.random() * 6);
         record.setAccount(accounts[accontIndex]);
         // 生成随机金额
         double money = Math.random() * 200;
@@ -185,10 +187,10 @@ public class DBHelper extends SQLiteOpenHelper {
         String typeChild = "";
         if (status.equals("支出")){
             ArrayList<String> types = util.getOutcomeTypes();
-            int typeIndex = (int)Math.random() * (types.size() - 1) ;
+            int typeIndex = (int)(Math.random() * types.size()) ;
             type = types.get(typeIndex);
             ArrayList<String> typeChilds = util.getOutcomeTypeChilds(type);
-            int typeChildIndex = (int)Math.random() * (typeChilds.size() - 1);
+            int typeChildIndex = (int)(Math.random() * typeChilds.size());
             typeChild = typeChilds.get(typeChildIndex);
         }else{
             ArrayList<String> types = util.getImcomeTypes();

@@ -118,7 +118,7 @@
             android:layout_height="match_parent"
             android:id="@+id/fl_user_login_status"
             android:layout_below="@id/drawer_title"
-            android:background="@color/blue"></FrameLayout>
+            android:background="@color/background"></FrameLayout>
 
     </RelativeLayout>
 

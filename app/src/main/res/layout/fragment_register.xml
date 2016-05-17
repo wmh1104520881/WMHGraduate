@@ -41,6 +41,7 @@
         <!--用户名-->
         <EditText
             style="@style/edit_input"
+            android:layout_marginTop="@dimen/margin_normal"
             android:id="@+id/et_register_user_name"
             android:hint="@string/user_name"
             android:singleLine="true"/>
@@ -48,6 +49,7 @@
         <EditText
             style="@style/edit_input"
             android:id="@+id/et_register_password"
+            android:layout_marginTop="@dimen/margin_normal"
             android:singleLine="true"
             android:inputType="textPassword"
             android:hint="@string/user_password"/>
@@ -55,11 +57,44 @@
         <EditText
             style="@style/edit_input"
             android:id="@+id/et_register_password_again"
+            android:layout_marginTop="@dimen/margin_normal"
             android:singleLine="true"
             android:inputType="textPassword"
             android:hint="@string/user_password_again"/>
+            <!--年龄-->
+            <EditText
+                style="@style/edit_input"
+                android:id="@+id/et_register_age"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:hint="@string/user_age"/>
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_sex_man" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_sex_women" />
+            </RadioGroup>
+            <!--电话号码-->
+            <EditText
+                style="@style/edit_input"
+                android:id="@+id/et_register_number"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:hint="@string/user_number"/>
         <EditText
             style="@style/edit_input"
+            android:layout_marginTop="@dimen/margin_normal"
             android:id="@+id/et_register_word"
             android:hint="@string/input_your_word"/>
         </LinearLayout>

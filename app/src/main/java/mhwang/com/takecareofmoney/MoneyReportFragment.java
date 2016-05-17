@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -49,10 +50,11 @@ public class MoneyReportFragment extends PagerFragment {
     public final static String[] months = new String[]{"1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月",
             "9月", "10月", "11月", "12月"};
 
+
 //    public final static String[] days = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun",};
 
     public final static int LINE_DAYS = 31;
-    public final static int MAX_MONEY = 2000;
+    public final static int MAX_MONEY = 1000;
     public final static int ONE_YEAR_MONTH = 12;
 
     public int[] days;
@@ -62,8 +64,8 @@ public class MoneyReportFragment extends PagerFragment {
     private LineChartData lineData;
     private ColumnChartData columnData;
 
-    private ImageButton ib_previous;
-    private ImageButton ib_next;
+    private ImageView ib_previous;
+    private ImageView ib_next;
     private TextView tv_year;
 
 
@@ -91,8 +93,8 @@ public class MoneyReportFragment extends PagerFragment {
         mView = inflater.inflate(R.layout.fragment_money_report,null);
         chartTop = (LineChartView) mView.findViewById(R.id.chart_top);
         chartBottom = (ColumnChartView) mView.findViewById(R.id.chart_bottom);
-        ib_previous = (ImageButton) mView.findViewById(R.id.ib_money_report_previous);
-        ib_next = (ImageButton) mView.findViewById(R.id.ib_money_report_next);
+        ib_previous = (ImageView) mView.findViewById(R.id.ib_money_report_previous);
+        ib_next = (ImageView) mView.findViewById(R.id.ib_money_report_next);
         tv_year = (TextView) mView.findViewById(R.id.tv_money_report_year);
         initEvent();
         // Generate and set data for line chart
@@ -143,6 +145,7 @@ public class MoneyReportFragment extends PagerFragment {
         }
         initLineData();
         initColumnData();
+//        generateColumnData();
         tv_year.setText(year+"年");
     }
 
@@ -204,15 +207,14 @@ public class MoneyReportFragment extends PagerFragment {
         List<Column> columns = new ArrayList<Column>();
         List<SubcolumnValue> values;
         for (int i = 0; i < numColumns; ++i) {
-
             values = new ArrayList<SubcolumnValue>();
             for (int j = 0; j < numSubcolumns; ++j) {
-                float KSurplus = (float) monthSurpluses[i];
-                showLog("the column " + i + " Kdata is " + KSurplus);
-                if (KSurplus > 0){
-                    values.add(new SubcolumnValue(KSurplus, Color.BLUE));
+                float surplus = (float) monthSurpluses[i];
+                showLog("the column " + i + " Kdata is " + surplus);
+                if (surplus > 0){
+                    values.add(new SubcolumnValue(surplus, Color.GREEN));
                 }else{
-                    values.add(new SubcolumnValue(-KSurplus, Color.RED));
+                    values.add(new SubcolumnValue(-surplus, Color.RED));
                 }
             }
 
@@ -225,8 +227,8 @@ public class MoneyReportFragment extends PagerFragment {
 
         columnData.setAxisXBottom(new Axis(axisValues).
                 setHasLines(true).setTextColor(Color.BLACK));
-        columnData.setAxisYLeft(new Axis().setHasLines(true).
-                setMaxLabelChars(2).setTextColor(Color.BLACK).setName("单位(千)"));
+        columnData.setAxisYLeft(new Axis().setHasLines(true)
+                .setMaxLabelChars(2).setName("单位(元)").setTextColor(Color.BLACK));
 
         chartBottom.setColumnChartData(columnData);
 
@@ -239,9 +241,10 @@ public class MoneyReportFragment extends PagerFragment {
 //        chartBottom.setViewportCalculationEnabled(false);
 
         // And set initial max viewport and current viewport- remember to set viewports after data.
-        Viewport v = new Viewport(0, 10000, 12, 0);
-        chartBottom.setMaximumViewport(v);
-        chartBottom.setCurrentViewport(v);
+//        Viewport v = new Viewport(0, 10000, 12, 0);
+//        chartBottom.setMaximumViewport(v);
+//        chartBottom.setCurrentViewport(v);
+
         chartBottom.setZoomType(ZoomType.VERTICAL);
 
 //        chartBottom.setOnClickListener(new View.OnClickListener() {
@@ -290,7 +293,7 @@ public class MoneyReportFragment extends PagerFragment {
         // Set selection mode to keep selected month column highlighted.
         chartBottom.setValueSelectionEnabled(true);
 
-        chartBottom.setZoomType(ZoomType.HORIZONTAL);
+        chartBottom.setZoomType(ZoomType.VERTICAL);
 
          chartBottom.setOnClickListener(new View.OnClickListener() {
 
@@ -298,7 +301,7 @@ public class MoneyReportFragment extends PagerFragment {
              public void onClick(View v) {
                  SelectedValue sv = chartBottom.getSelectedValue();
                  if (!sv.isSet()) {
-                     generateInitialLineData();
+//                     generateInitialLineData();
                  }
 
              }

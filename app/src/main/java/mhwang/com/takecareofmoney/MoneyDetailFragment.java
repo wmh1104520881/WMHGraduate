@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -50,8 +51,8 @@ public class MoneyDetailFragment extends PagerFragment {
     private TextView tv_outcome;
     private TextView tv_year;
 
-    private ImageButton ib_previous;
-    private ImageButton ib_next;
+    private ImageView iv_previous;
+    private ImageView iv_next;
 
 
 
@@ -65,6 +66,7 @@ public class MoneyDetailFragment extends PagerFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         year = DateUtil.getInstance().getYear();
+        initData();
     }
 
     @Nullable
@@ -74,16 +76,14 @@ public class MoneyDetailFragment extends PagerFragment {
         LogUitl.showLog("MoneyDetailFragment", "onCreateView");
 
         initComponent();
-
+        initEvent();
         return mView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        initData();
         showData();
-        initEvent();
     }
 
     /**
@@ -102,14 +102,14 @@ public class MoneyDetailFragment extends PagerFragment {
                 return true;
             }
         });
-        ib_previous.setOnClickListener(new View.OnClickListener() {
+        iv_previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 year -= 1;
                 updateData();
             }
         });
-        ib_next.setOnClickListener(new View.OnClickListener() {
+        iv_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 year += 1;
@@ -148,8 +148,8 @@ public class MoneyDetailFragment extends PagerFragment {
         tv_surplus = (TextView) mView.findViewById(R.id.tv_detail_surplus);
         tv_outcome = (TextView) mView.findViewById(R.id.tv_detail_outcome);
         tv_year = (TextView) mView.findViewById(R.id.tv_money_detail_year);
-        ib_previous = (ImageButton) mView.findViewById(R.id.ib_money_detail_previous);
-        ib_next = (ImageButton) mView.findViewById(R.id.ib_money_detail_next);
+        iv_previous = (ImageView) mView.findViewById(R.id.ib_money_detail_previous);
+        iv_next = (ImageView) mView.findViewById(R.id.ib_money_detail_next);
     }
 
     /**

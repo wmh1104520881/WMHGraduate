@@ -55,19 +55,26 @@ public class AccountFragmentAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_account,null);
             holder = new ViewHolder();
             holder.tv_accountName = (TextView) convertView.findViewById(R.id.tv_item_account_name);
-            holder.tv_money = (TextView) convertView.findViewById(R.id.tv_item_account_status);
+            holder.tv_income = (TextView) convertView.findViewById(R.id.tv_item_account_income);
+            holder.tv_outcome = (TextView) convertView.findViewById(R.id.tv_item_account_outcome);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder)convertView.getTag();
         }
         holder.tv_accountName.setText(account.getName());
-        holder.tv_money.setText(NumberFormat.format(account.getMoney()));
+        if (account.getName().equals("信用卡")) {
+            holder.tv_income.setVisibility(View.GONE);
+        } else {
+            holder.tv_income.setText(NumberFormat.format(account.getIncome()));
+        }
+        holder.tv_outcome.setText(NumberFormat.format(account.getOutcome()));
         return convertView;
     }
 
     private static class ViewHolder{
         TextView tv_accountName;
-        TextView tv_money;
+        TextView tv_income;
+        TextView tv_outcome;
     }
 
 }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import mhwang.com.adapter.AccountFragmentAdapter;
 import mhwang.com.bean.Account;
 import mhwang.com.bean.Record;
 import mhwang.com.database.DBUtil;
+import mhwang.com.util.DateUtil;
 import mhwang.com.util.NumberFormat;
 
 /**
@@ -59,6 +61,7 @@ public class AccountFragment extends PagerFragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_account,null);
         initComponent();
+        initEvent();
         return mView;
     }
 
@@ -76,6 +79,12 @@ public class AccountFragment extends PagerFragment{
         tv_totalNegativeAsset = (TextView)mView.findViewById(R.id.tv_total_negative_asset);
         tv_totalNetAsset = (TextView)mView.findViewById(R.id.tv_account_net_asset);
         tv_totalSurplusAsset = (TextView)mView.findViewById(R.id.tv_account_total_surplus);
+    }
+
+    /**
+     *  添加事件
+     */
+    private void initEvent(){
         adapter = new AccountFragmentAdapter(accounts,getActivity());
         mListView.setAdapter(adapter);
     }
@@ -116,9 +125,12 @@ public class AccountFragment extends PagerFragment{
                     income += record.getMoney();
                 }
             }
-            totalIncome += income;
+            if (!account.getName().equals("信用卡")) {
+                totalIncome += income;
+            }
             totalOutcome += outcome;
-            account.setMoney(outcome);
+            account.setIncome(income);
+            account.setOutcome(outcome);
         }
         totalSurplus = totalIncome - totalOutcome;
     }

@@ -7,31 +7,53 @@ package mhwang.com.bean;
  * 创建时间：2016/4/30
  */
 public class Account {
+    private int id;
     private String name;
-    private double money;
+    private double income;
+    private double outcome;
     public Account(){
         name = "";
-        money = 0.00;
+        income = 0.00;
+        outcome = 0.00;
+        id = 0;
     }
 
-    public Account(String name, double money) {
+    public int getId() {
+        return id;
+    }
+
+    public Account(String name, double income,double outcome) {
         this.name = name;
-        this.money = money;
+        this.outcome = outcome;
+        this.income = income;
     }
 
     public String getName() {
         return name;
     }
 
-    public double getMoney() {
-        return money;
-    }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setMoney(double money) {
-        this.money = money;
+    public double getIncome() {
+        return income;
+    }
+
+    public double getOutcome() {
+        return outcome;
+    }
+
+    public void setIncome(double income) {
+        this.income = income;
+    }
+
+    public void setOutcome(double outcome) {
+        this.outcome = outcome;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

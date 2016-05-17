@@ -6,6 +6,7 @@
     <color name="number_color">#FFFA770A</color> <!--显示的数字的颜色-->
     <color name="item_border">#FFFFE698</color> <!--列表项边界颜色-->
     <color name="background">#AA23FFBB</color>  <!--背景色-->
+    <color name="background_press">#FF23FFFF</color>  <!--背景色-->
     <color name="green">#FF00FF00</color>
     <color name="red">#FFFF0000</color>
     <color name="gray">#AACCCCCC</color>

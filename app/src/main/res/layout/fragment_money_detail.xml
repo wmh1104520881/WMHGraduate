@@ -12,12 +12,12 @@
         android:background="@color/background"
         android:paddingRight="@dimen/margin_normal"
         android:layout_height="@dimen/item_height_normal">
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/image_back_selector"
+        <ImageView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
+            android:src="@drawable/ic_back"
             android:id="@+id/ib_money_detail_previous"
+            android:background="@drawable/image_back_selector"
             android:layout_alignParentLeft="true"/>
         <TextView
             android:layout_width="wrap_content"
@@ -26,12 +26,12 @@
             android:layout_centerInParent="true"
             android:id="@+id/tv_money_detail_year"
             android:text="@string/record_money"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
             android:id="@+id/ib_money_detail_next"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_finish"
+            android:src="@drawable/ic_forward"
+            android:background="@drawable/image_forword_selector"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
     <!--结余-->
