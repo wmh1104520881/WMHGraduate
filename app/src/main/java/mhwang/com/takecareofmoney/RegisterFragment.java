@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import mhwang.com.bean.User;
@@ -21,14 +23,19 @@ import mhwang.com.database.DBUtil;
  */
 public class RegisterFragment extends Fragment {
     private View mView;
-    private ImageButton ib_back;
-    private ImageButton ib_finish;
+    private ImageView ib_back;
+    private ImageView ib_finish;
     private OnItemClickListener mListener;
 
     private EditText et_user_name;
     private EditText et_user_password;
     private EditText et_user_password_again;
     private EditText et_word;
+    private EditText et_age;
+    private EditText et_number;
+    private RadioGroup rg_sex;
+
+    private String sex = "男";
 
     private void showToast(String msg){
         Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
@@ -45,12 +52,15 @@ public class RegisterFragment extends Fragment {
      *  初始化控件
      */
     private void initComponent(){
-        ib_back = (ImageButton) mView.findViewById(R.id.ib_regiter_back);
-        ib_finish = (ImageButton) mView.findViewById(R.id.ib_register_finish);
+        ib_back = (ImageView) mView.findViewById(R.id.ib_regiter_back);
+        ib_finish = (ImageView) mView.findViewById(R.id.ib_register_finish);
         et_user_name = (EditText) mView.findViewById(R.id.et_register_user_name);
         et_user_password = (EditText) mView.findViewById(R.id.et_register_password);
         et_user_password_again = (EditText) mView.findViewById(R.id.et_register_password_again);
         et_word = (EditText) mView.findViewById(R.id.et_register_word);
+        et_age = (EditText) mView.findViewById(R.id.et_register_age);
+        et_number = (EditText) mView.findViewById(R.id.et_register_number);
+        rg_sex = (RadioGroup) mView.findViewById(R.id.rg_register_sex);
 
         ib_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +77,14 @@ public class RegisterFragment extends Fragment {
                 mListener.onItemClick();
             }
         });
+
+        rg_sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+            }
+        });
+
     }
 
     /**
@@ -77,6 +95,8 @@ public class RegisterFragment extends Fragment {
         String password = et_user_password.getText().toString();
         String passwordAgain = et_user_password_again.getText().toString();
         String word = et_word.getText().toString();
+        String number = et_number.getText().toString();
+        int age = Integer.parseInt(et_age.getText().toString());
 
         // 判断用户填入的数据是否有效
         if (userName.isEmpty() || password.isEmpty() || passwordAgain.isEmpty()){
@@ -91,7 +111,13 @@ public class RegisterFragment extends Fragment {
         }
 
         // 将注册数据提交数据库
-        User user = new User(userName,word,"44444",password);
+        User user = new User();
+        user.setPassword(password);
+        user.setName(userName);
+        user.setWord(word);
+        user.setSex(sex);
+        user.setAge(age);
+        user.setNumber(number);
         DBUtil.getInstance(getActivity()).insertUser(user);
         return true;
     }

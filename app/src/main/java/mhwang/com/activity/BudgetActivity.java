@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class BudgetActivity extends Activity {
     private TextView tv_total_outcome;
     private TextView tv_total_surplus;
     private String budgetTypes[];
+    private ImageView iv_back;
 
     private double useableMoney;
     private double usedMoney;
@@ -99,6 +101,14 @@ public class BudgetActivity extends Activity {
         tv_total_budget = (TextView) findViewById(R.id.tv_total_budget);
         tv_total_outcome = (TextView) findViewById(R.id.tv_budget_total_outcome);
         tv_total_surplus = (TextView) findViewById(R.id.tv_budget_total_surplus);
+        iv_back = (ImageView) findViewById(R.id.iv_budget_back);
+
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 

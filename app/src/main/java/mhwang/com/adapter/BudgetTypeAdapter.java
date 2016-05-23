@@ -13,6 +13,7 @@ import java.util.List;
 
 import mhwang.com.bean.BudgetType;
 import mhwang.com.takecareofmoney.R;
+import mhwang.com.util.NumberFormat;
 
 /**
  * 项目名称：
@@ -69,8 +70,8 @@ public class BudgetTypeAdapter extends BaseAdapter{
         }
         holder.iv_photo.setImageResource(imgIds[position]);
         holder.tv_type.setText(budget.getType());
-        holder.tv_surplus.setText("剩余" + budget.getSurplus());
-        holder.tv_budget.setText("预算" + budget.getBudget());
+        holder.tv_surplus.setText("剩余" + NumberFormat.format(budget.getSurplus()));
+        holder.tv_budget.setText("预算" + NumberFormat.format(budget.getBudget()));
         holder.pb_value.setProgress((int) budget.getValue());
         return convertView;
     }

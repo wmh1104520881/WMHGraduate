@@ -72,7 +72,12 @@ public class DBUtil {
         values.put("word",user.getWord());
         values.put("info",user.getInfo());
         values.put("password",user.getPassword());
+        values.put("age",user.getAge());
+        values.put("number",user.getNumber());
+        values.put("sex",user.getSex());
+        values.put("photo",user.getPhoto());
         sdb.insert(TABLE_USER, null, values);
+        showLog("Line 80 insert a user name "+user.getName());
     }
 
     /** 读取用户
@@ -91,12 +96,18 @@ public class DBUtil {
             user.setPassword(cursor.getString(cursor.getColumnIndex("password")));
             user.setWord(cursor.getString(cursor.getColumnIndex("word")));
             user.setInfo(cursor.getString(cursor.getColumnIndex("info")));
+            user.setNumber(cursor.getString(cursor.getColumnIndex("number")));
+            user.setPhoto(cursor.getString(cursor.getColumnIndex("photo")));
+            user.setSex(cursor.getString(cursor.getColumnIndex("sex")));
+            user.setAge(cursor.getInt(cursor.getColumnIndex("age")));
 
-            showLog("get the user info id: "+user.getUserId()+
-            "\n name: "+user.getName()+
-            "\n password: "+user.getPassword()+
-            "\n word: "+user.getWord()+
+            showLog("Line 103 get the user info id: " + user.getUserId() +
+                    "\n name: " + user.getName() +
+                    "\n password: " + user.getPassword() +
+                    "\n word: "+user.getWord()+
             "\n info: "+user.getInfo());
+        }else{
+            showLog("no this user name "+name+" password "+password);
         }
         cursor.close();
         return user;

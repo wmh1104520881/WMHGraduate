@@ -6,97 +6,133 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:paddingLeft="@dimen/margin_normal"
-        android:background="@color/background"
         android:paddingRight="@dimen/margin_normal"
-        android:layout_height="@dimen/item_height_normal">
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/image_back_selector"
-            android:id="@+id/ib_regiter_back"
-            android:layout_alignParentLeft="true"/>
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
+            android:src="@drawable/ic_close"
+            android:background="@drawable/image_back_selector"
+            android:id="@+id/ib_regiter_back" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_normal"
             android:layout_centerInParent="true"
             android:text="@string/register"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
             android:id="@+id/ib_register_finish"
-            android:layout_centerInParent="true"
             android:src="@drawable/ic_finish"
+            android:background="@drawable/image_back_selector"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <!--用户名-->
-        <EditText
-            style="@style/edit_input"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:id="@+id/et_register_user_name"
-            android:hint="@string/user_name"
-            android:singleLine="true"/>
-        <!--密码-->
-        <EditText
-            style="@style/edit_input"
-            android:id="@+id/et_register_password"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:singleLine="true"
-            android:inputType="textPassword"
-            android:hint="@string/user_password"/>
-        <!--再次输入密码-->
-        <EditText
-            style="@style/edit_input"
-            android:id="@+id/et_register_password_again"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:singleLine="true"
-            android:inputType="textPassword"
-            android:hint="@string/user_password_again"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+                    <!--用户名-->
+                    <EditText
+                        android:id="@+id/et_register_user_name"
+                        style="@style/edit_input"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:hint="@string/user_name"
+                        android:singleLine="true" />
+                    <!--密码-->
+                    <EditText
+                        android:id="@+id/et_register_password"
+                        style="@style/edit_input"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:hint="@string/user_password"
+                        android:inputType="textPassword"
+                        android:singleLine="true" />
+                    <!--再次输入密码-->
+                    <EditText
+                        android:id="@+id/et_register_password_again"
+                        style="@style/edit_input"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:hint="@string/user_password_again"
+                        android:inputType="textPassword"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:background="@drawable/ic_user_photo"
+                    android:layout_weight="1" />
+            </LinearLayout>
             <!--年龄-->
             <EditText
-                style="@style/edit_input"
                 android:id="@+id/et_register_age"
+                style="@style/edit_input"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:singleLine="true"
-                android:inputType="textPassword"
-                android:hint="@string/user_age"/>
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_normal"
+                android:hint="@string/user_age"
+                android:inputType="number"
+                android:singleLine="true" />
+            <!--性别-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_large"
-                android:layout_height="wrap_content">
-                <RadioButton
+                android:layout_marginTop="@dimen/margin_normal"
+                android:orientation="horizontal">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_sex_man" />
-                <RadioButton
+                    android:text="@string/user_sex"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_sex_women" />
-            </RadioGroup>
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:id="@+id/rg_register_sex"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_sex_man" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_sex_women" />
+                </RadioGroup>
+            </LinearLayout>
             <!--电话号码-->
             <EditText
-                style="@style/edit_input"
                 android:id="@+id/et_register_number"
+                style="@style/edit_input"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:singleLine="true"
-                android:inputType="textPassword"
-                android:hint="@string/user_number"/>
-        <EditText
-            style="@style/edit_input"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:id="@+id/et_register_word"
-            android:hint="@string/input_your_word"/>
+                android:hint="@string/user_number"
+                android:singleLine="true" />
+            <!--个人说明-->
+            <EditText
+                android:id="@+id/et_register_word"
+                style="@style/edit_input"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:hint="@string/input_your_word" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -5,30 +5,23 @@
     <!--标题栏-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:paddingLeft="@dimen/margin_normal"
         android:background="@color/background"
-        android:paddingRight="@dimen/margin_normal"
+        android:id="@+id/rl_record_list_title"
         android:layout_height="@dimen/item_height_normal">
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/image_back_selector"
-            android:id="@+id/ib_finace_web_back"
+        <ImageView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
+            android:src="@drawable/ic_image_back"
+            android:id="@+id/iv_finace_back"
+            android:background="@drawable/image_back_selector"
             android:layout_alignParentLeft="true"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_normal"
             android:layout_centerInParent="true"
+            android:id="@+id/tv_record_list_title"
             android:text="@string/finace_list"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ib_finace_web_finish"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_finish"
-            android:layout_alignParentRight="true"/>
     </RelativeLayout>
     <ListView
         android:layout_width="match_parent"

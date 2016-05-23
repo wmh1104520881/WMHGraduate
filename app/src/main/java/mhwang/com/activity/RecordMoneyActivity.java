@@ -57,8 +57,8 @@ public class RecordMoneyActivity extends Activity {
     private TextView tv_accountType;
     private EditText et_recordMoney;
     private EditText et_note;
-    private ImageButton ib_back;
-    private ImageButton ib_finish;
+    private ImageView ib_back;
+    private ImageView ib_finish;
     private RelativeLayout rl_takePhoto;
     private ImageView iv_showPhoto;
 
@@ -255,8 +255,8 @@ public class RecordMoneyActivity extends Activity {
         tv_accountType = (TextView) findViewById(R.id.tv_account_type);
         btn_recordStatus = (Button) findViewById(R.id.btn_in_out);
         et_recordMoney = (EditText) findViewById(R.id.et_record_money);
-        ib_back = (ImageButton) findViewById(R.id.ib_record_money_back);
-        ib_finish = (ImageButton) findViewById(R.id.ib_record_money_finish);
+        ib_back = (ImageView) findViewById(R.id.ib_record_money_back);
+        ib_finish = (ImageView) findViewById(R.id.ib_record_money_finish);
         et_note = (EditText) findViewById(R.id.et_note);
         rl_takePhoto = (RelativeLayout) findViewById(R.id.rl_take_photo);
         iv_showPhoto = (ImageView) findViewById(R.id.iv_show_photo);

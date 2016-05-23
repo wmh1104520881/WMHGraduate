@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@drawable/dialog_border"
     android:layout_height="match_parent">
     <mhwang.com.view.TypePicker
         android:id="@+id/tp_record_type"
@@ -11,6 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/margin_normal"
         android:orientation="horizontal">
         <Button
             android:layout_width="0dp"

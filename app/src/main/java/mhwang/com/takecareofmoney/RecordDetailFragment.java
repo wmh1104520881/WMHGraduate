@@ -42,8 +42,8 @@ public class RecordDetailFragment extends Fragment {
     public static final int DELETE = 1;
 
     private View mView;
-    private ImageButton ib_back;
-    private ImageButton ib_finish;
+    private ImageView ib_back;
+    private ImageView ib_finish;
     private Button btn_edit;
     private Button btn_delete;
     private Button btn_status;
@@ -133,8 +133,8 @@ public class RecordDetailFragment extends Fragment {
      *  初始化控件
      */
     private void initComponent(){
-        ib_back = (ImageButton) mView.findViewById(R.id.ib_record_detail_back);
-        ib_finish = (ImageButton) mView.findViewById(R.id.ib_record_detail_finish);
+        ib_back = (ImageView) mView.findViewById(R.id.ib_record_detail_back);
+        ib_finish = (ImageView) mView.findViewById(R.id.ib_record_detail_finish);
         btn_edit = (Button) mView.findViewById(R.id.btn_detail_edit);
         btn_delete = (Button) mView.findViewById(R.id.btn_detail_delete);
         btn_status = (Button) mView.findViewById(R.id.btn_detail_in_out);
@@ -163,7 +163,7 @@ public class RecordDetailFragment extends Fragment {
         if (record == null){
             return;
         }
-        if (record.getPhotoPath() != null) {
+        if (record.getPhotoPath() != null  && !record.getPhotoPath().equals("")) {
             Bitmap bitmap = PictureUtil.getBitmap(record.getPhotoPath());
             Bitmap newBitmap = PictureUtil.resizeBitmap(bitmap, (int) getResources().getDimension(R.dimen.picture_width),
                     (int) getResources().getDimension(R.dimen.picture_height));
@@ -283,6 +283,7 @@ public class RecordDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setAllUIStatus(true,true,true,true,true);
+                ib_finish.setVisibility(View.VISIBLE);
                 isEdit = true;
             }
         });

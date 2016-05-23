@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -41,6 +42,7 @@ public class SearchActivity extends Activity {
     private EditText et_search;
     private ListView lv_showSearch;
     private ListView lv_showSearchResult;
+    private ImageView iv_back;
     private Spinner sp_year;
     private Spinner sp_month;
     private Spinner sp_day;
@@ -231,8 +233,15 @@ public class SearchActivity extends Activity {
                 detailRecordId = record.getId();
                 detailRecordPos = position;
                 Intent intent = new Intent(getApplicationContext(),RecordDetailActivity.class);
-                intent.putExtra(RecordDetailFragment.KEY_RECORD_ID,detailRecordId);
+                intent.putExtra(RecordDetailFragment.KEY_RECORD_ID, detailRecordId);
                 startActivityForResult(intent, Request.RECORD_DETAIL);
+            }
+        });
+
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -322,6 +331,7 @@ public class SearchActivity extends Activity {
         sp_month = (Spinner) findViewById(R.id.sp_month);
         sp_day = (Spinner) findViewById(R.id.sp_day);
         et_search = (EditText) findViewById(R.id.et_search_key);
+        iv_back = (ImageView) findViewById(R.id.iv_search_back);
     }
 
 

@@ -10,6 +10,11 @@ public class User {
     private int userId;
     private String name;
     private String word;
+    private String sex;
+    private String number;
+    private String photo;
+    private int age;
+
     private String password;
     private String info;
 
@@ -19,6 +24,26 @@ public class User {
         word = "书山有路勤为径，学海无涯苦作舟！";
         info = "桂林电子科技大学";
         password = "123456";
+        photo = "";
+        sex = "男";
+        number = "10086";
+        age = 0;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     public User(String name,String word,String info,String password){
@@ -66,6 +91,22 @@ public class User {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }
 

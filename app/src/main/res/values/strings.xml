@@ -17,6 +17,7 @@
     <string name="this_month_output">本月支出</string>
     <string name="budget_surplus">预算结余</string>
     <string name="budget">预算</string>
+    <string name="budget_set">预算设置</string>
     <string name="record_money">记账</string>
     <string name="record_detail">详细</string>
     <string name="surplus">结余</string>
@@ -48,9 +49,13 @@
     <string name="input_your_word">个人说明</string>
     <string name="label_name">姓名：</string>
     <string name="label_word">个人说明：</string>
+    <string name="label_age">年龄：</string>
+    <string name="label_sex">性别：</string>
+    <string name="label_number">电话号码：</string>
     <string name="sure">确定</string>
     <string name="cancel">取消</string>
     <string name="edit">编辑</string>
+    <string name="modify">修改</string>
     <string name="delete">删除</string>
     <string name="search_hint">请输入搜索关键词</string>
     <string name="date">日期</string>
@@ -62,7 +67,7 @@
 
 
     <!--默认字符-->
-    <string name="default_user_name">游客</string>
+    <string name="default_user_name">欢迎你,游客</string>
     <string name="default_month">4</string>
     <string name="default_year">/2016</string>
     <string name="default_money">0.00</string>

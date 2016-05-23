@@ -42,6 +42,7 @@ public class DBHelper extends SQLiteOpenHelper {
             +"sex text, "
             +"age integer, "
             +"number text, "
+            +"photo text, "
             +"info text)";                 // 个人信息
 
     /**
@@ -78,7 +79,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CREATE_ACCOUNT = "CREATE TABLE account ("
             +"id integer primary key autoincrement, "
             +"name text, "                // 账户名称
-            +"money real, "              // 金额
+            +"income real, "
+            +"outcome real, "              // 金额
             +"userId integer)";          // 用户id
 
     // 为账户表插入预设账户

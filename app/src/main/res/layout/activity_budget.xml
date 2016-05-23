@@ -4,6 +4,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!--标题栏-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/margin_normal"
+        android:background="@color/background"
+        android:paddingRight="@dimen/margin_normal"
+        android:id="@+id/rl_record_list_title"
+        android:layout_height="@dimen/item_height_normal">
+        <ImageView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
+            android:src="@drawable/ic_image_back"
+            android:id="@+id/iv_budget_back"
+            android:background="@drawable/image_back_selector"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal"
+            android:layout_centerInParent="true"
+            android:id="@+id/tv_record_list_title"
+            android:text="@string/budget_set"/>
+    </RelativeLayout>
     <!--总资产-->
     <LinearLayout
         android:layout_width="match_parent"

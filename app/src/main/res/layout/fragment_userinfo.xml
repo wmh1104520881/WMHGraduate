@@ -1,20 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:paddingLeft="@dimen/margin_normal"
     android:layout_height="match_parent">
+
+    <!--年龄-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height_normal"
         android:orientation="horizontal">
         <TextView
             style="@style/label"
-            android:text="@string/label_name"/>
+            android:text="@string/label_age"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_userinfo_name"
             android:textSize="@dimen/text_size_large"
-            android:text="this is user info"/>
+            android:id="@+id/tv_userinfo_age"/>
+    </LinearLayout>
+
+    <!--性别-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_normal"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/label"
+            android:text="@string/label_sex"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_large"
+            android:id="@+id/tv_userinfo_sex"/>
+    </LinearLayout>
+
+    <!--电话号码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_normal"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/label"
+            android:text="@string/label_number"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_large"
+            android:id="@+id/tv_userinfo_number"/>
     </LinearLayout>
 
     <LinearLayout
@@ -30,5 +62,14 @@
             android:textSize="@dimen/text_size_large"
             android:id="@+id/tv_userinfo_word"/>
     </LinearLayout>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_marginRight="@dimen/margin_large"
+        android:background="@drawable/button_selector"
+        android:text="@string/modify"/>
 
 </LinearLayout>

@@ -174,7 +174,7 @@ public class MainActivity extends FragmentActivity {
                 // 将当前用户恢复为游客
                 UserUtil.getInstance().logOutToDefaultUser();
                 // 将登陆的用户设置成默认用户
-                tv_userName.setText(UserUtil.getInstance().getCurUser().getName());
+                tv_userName.setText("欢迎你,"+UserUtil.getInstance().getCurUser().getName());
                 int curItem = mViewPager.getCurrentItem();
                 PagerFragment fragment = (PagerFragment)mFragments.get(curItem);
                 fragment.updateData();
@@ -231,6 +231,7 @@ public class MainActivity extends FragmentActivity {
      *  添加登陆Fragment
      */
     private void addLoginFragment(User user){
+        showLog("Line 234 show UserInfo");
         uif = new UserInfoFragment();
         FragmentTransaction ftUif = fm.beginTransaction();
         // 将登陆的用户设置成当前用户

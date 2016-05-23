@@ -79,7 +79,7 @@ public class LoginFragment extends Fragment {
             showToast("用户不存在或密码不正确");
             return null;
         }
-
+        showToast("Line checkUserExits");
         User user = DBUtil.getInstance(getActivity()).readUsers(userName,password);
         return user;
 

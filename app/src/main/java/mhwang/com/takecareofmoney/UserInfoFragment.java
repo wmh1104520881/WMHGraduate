@@ -24,8 +24,10 @@ public class UserInfoFragment extends Fragment {
      */
     private User user = null;
 
-    private TextView tv_name;
     private TextView tv_word;
+    private TextView tv_age;
+    private TextView tv_sex;
+    private TextView tv_number;
 
     @Nullable
     @Override
@@ -40,10 +42,14 @@ public class UserInfoFragment extends Fragment {
      *  初始化控件
      */
     private void initComponent() {
-        tv_name = (TextView) mView.findViewById(R.id.tv_userinfo_name);
         tv_word = (TextView) mView.findViewById(R.id.tv_userinfo_word);
-        tv_name.setText(user.getName());
+        tv_age = (TextView) mView.findViewById(R.id.tv_userinfo_age);
+        tv_sex = (TextView) mView.findViewById(R.id.tv_userinfo_sex);
+        tv_number = (TextView) mView.findViewById(R.id.tv_userinfo_number);
         tv_word.setText(user.getWord());
+        tv_age.setText(Integer.toString(user.getAge()));
+        tv_number.setText(user.getNumber());
+        tv_sex.setText(user.getSex());
     }
 
     /** 设置显示信息的用户

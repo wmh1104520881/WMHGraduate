@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class FinaceListFragment extends Fragment {
     private static final String QQ_FINANCE = "http://finance.qq.com/";
     private View mView;
     private ListView lv_list;
+    private ImageView iv_back;
     private ArrayList<String> financeNames;
     private String[] financeUris = {SINA_FINANCE,WANGYI_FINANCE,FENGHUANG_FINANCE,QQ_FINANCE};
 
@@ -54,6 +56,7 @@ public class FinaceListFragment extends Fragment {
 
     private void initComponent(){
         lv_list = (ListView) mView.findViewById(R.id.lv_finace_web);
+        iv_back = (ImageView) mView.findViewById(R.id.iv_finace_back);
     }
 
     private void initEvent(){
@@ -62,7 +65,7 @@ public class FinaceListFragment extends Fragment {
         lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LogUitl.showLog("FinaceListFragment","onItemClick");
+                LogUitl.showLog("FinaceListFragment", "onItemClick");
                 if (isNetAvailable()) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(financeUris[position]));
@@ -72,6 +75,14 @@ public class FinaceListFragment extends Fragment {
                 }
             }
         });
+
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
     }
 
     private void initData(){

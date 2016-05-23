@@ -7,12 +7,14 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xlarge"
         android:id="@+id/btn_more_search"
         android:background="@drawable/button_selector"
         android:text="@string/search"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xlarge"
         android:id="@+id/btn_more_finance"
         android:background="@drawable/button_selector"
         android:text="@string/finance"/>
