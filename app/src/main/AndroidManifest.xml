@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_app_launch"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -48,6 +48,9 @@
             android:theme="@style/Theme.AppCompat.Dialog"></activity>
         <!--日期选择对话框-->
         <activity android:name="mhwang.com.dialog.SelectDateDialog"
+            android:theme="@style/Theme.AppCompat.Dialog"></activity>
+        <!--图片选择对话框-->
+        <activity android:name="mhwang.com.dialog.ImageListDialog"
             android:theme="@style/Theme.AppCompat.Dialog"></activity>
     </application>
 

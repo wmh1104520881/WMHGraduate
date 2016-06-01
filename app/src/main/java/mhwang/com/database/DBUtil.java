@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.view.ViewDebug;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class DBUtil {
     private SQLiteDatabase sdb;
     private Context mContext;
     private UserUtil userUtil;
+    private String[] budgetTypes;
 
 
     private DBUtil(Context context) {
@@ -50,6 +52,7 @@ public class DBUtil {
         sdb = helper.getReadableDatabase();
         mContext = context;
         userUtil = UserUtil.getInstance();
+        budgetTypes = mContext.getResources().getStringArray(R.array.budget_type);
     }
 
     /** 实例化数据库工具类对象
@@ -80,6 +83,42 @@ public class DBUtil {
         showLog("Line 80 insert a user name "+user.getName());
     }
 
+    /** 修改用户
+     * @param user
+     */
+    public void modifyUser(User user){
+        ContentValues values = new ContentValues();
+        values.put("age",user.getAge());
+        values.put("number",user.getNumber());
+        values.put("sex",user.getSex());
+        values.put("word", user.getWord());
+        sdb.update(TABLE_USER, values, "userId = ?", new String[]{intToString(user.getUserId())});
+        showLog("Line 94 update a user name "+user.getName());
+    }
+
+    /** 查找用户
+     * @param userName
+     * @return
+     */
+    public User searchUser(String userName){
+        User user = null;
+        Cursor cursor = sdb.query(TABLE_USER, null, "name = ?", new String[]{userName}, null, null, null);
+        if (cursor.moveToFirst()){
+            user = new User();
+            user.setUserId(cursor.getInt(cursor.getColumnIndex("userId")));
+            user.setName(cursor.getString(cursor.getColumnIndex("name")));
+            user.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+            user.setWord(cursor.getString(cursor.getColumnIndex("word")));
+            user.setInfo(cursor.getString(cursor.getColumnIndex("info")));
+            user.setNumber(cursor.getString(cursor.getColumnIndex("number")));
+            user.setPhoto(cursor.getString(cursor.getColumnIndex("photo")));
+            user.setSex(cursor.getString(cursor.getColumnIndex("sex")));
+            user.setAge(cursor.getInt(cursor.getColumnIndex("age")));
+        }
+        cursor.close();
+        return user;
+    }
+
     /** 读取用户
      * @param name
      * @param password
@@ -107,7 +146,7 @@ public class DBUtil {
                     "\n word: "+user.getWord()+
             "\n info: "+user.getInfo());
         }else{
-            showLog("no this user name "+name+" password "+password);
+            showLog("no this user name " + name + " password " + password);
         }
         cursor.close();
         return user;
@@ -209,7 +248,7 @@ public class DBUtil {
             Record record = getRecordFromDB(cursor);
             records.add(record);
         }
-        showLog("LINE 203 get the type " + type + " data size is "+records.size());
+        showLog("LINE 203 get the type " + type + " data size is " + records.size());
         cursor.close();
         return records;
     }
@@ -280,13 +319,13 @@ public class DBUtil {
      */
     public ArrayList<Record> readRecordsByAccount(String account){
         Cursor cursor = sdb.query(TABLE_RECORD, null, "account = ? AND userId = ?",
-                new String[]{account,intToString(userUtil.getCurUserId())}, null, null, null);
+                new String[]{account, intToString(userUtil.getCurUserId())}, null, null, null);
         ArrayList<Record> records = new ArrayList<>();
         while (cursor.moveToNext()){
             Record record = getRecordFromDB(cursor);
             records.add(record);
         }
-        showLog("lien 279 read the record "+" by account "+account+" size is "+records.size());
+        showLog("lien 279 read the record " + " by account " + account + " size is " + records.size());
         cursor.close();
         return records;
     }
@@ -439,24 +478,40 @@ public class DBUtil {
                 new String[]{intToString(record.getId())});
     }
 
+    /** 插入预算
+     * @param userId
+     */
+    public void insertBudget(int userId){
+        // 为预算表插入预算类型
+        for (int i = 0; i < budgetTypes.length; i++){
+            ContentValues values = new ContentValues();
+            values.put("type",budgetTypes[i]);
+            values.put("budget",0.00);
+            values.put("surplus",0.00);
+            values.put("userId",userId);
+            sdb.insert("budget",null,values);
+        }
+    }
 
     /**
      *  更新预算
      */
-    public void updateBudge(BudgetType budget){
+    public void updateBudget(BudgetType budget){
         // 更新数据
         ContentValues values = new ContentValues();
         values.put("budget",budget.getBudget());
         values.put("surplus",budget.getSurplus());
         sdb.update(TABLE_BUDGET, values, "type = ? AND userId = ?",
                 new String[]{budget.getType(),intToString(userUtil.getCurUserId())});
+        showLog("line 506 update budget");
     }
 
     /** 读取预算类型
      * @return
      */
     public ArrayList<BudgetType> readBudgetTypes(){
-        Cursor cursor = sdb.query(TABLE_BUDGET,null,null,null,null,null,null);
+        Cursor cursor = sdb.query(TABLE_BUDGET,null,"userId = ?",
+                new String[]{intToString(userUtil.getCurUserId())},null,null,null);
         ArrayList<BudgetType> budgetTypes = new ArrayList<>();
         while (cursor.moveToNext()){
             String type = cursor.getString(cursor.getColumnIndex("type"));
@@ -466,6 +521,7 @@ public class DBUtil {
             budgetTypes.add(budgetType);
         }
         cursor.close();
+        showLog("line 523 budgetTypes is "+budgetTypes.size());
         return budgetTypes;
     }
 

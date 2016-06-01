@@ -54,8 +54,10 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 User user = checkUserExits();
-                if(user == null)
+                if(user == null){
+                    showToast("用户名不存在或密码错误");
                     return;
+                }
                 mListener.Login(user);
             }
         });
@@ -76,10 +78,8 @@ public class LoginFragment extends Fragment {
         String userName = et_user_name.getText().toString();
         String password = et_password.getText().toString();
         if (userName.isEmpty() || password.isEmpty()){
-            showToast("用户不存在或密码不正确");
             return null;
         }
-        showToast("Line checkUserExits");
         User user = DBUtil.getInstance(getActivity()).readUsers(userName,password);
         return user;
 

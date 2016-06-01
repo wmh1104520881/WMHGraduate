@@ -26,6 +26,7 @@ import mhwang.com.bean.Record;
 import mhwang.com.bean.Request;
 import mhwang.com.database.DBUtil;
 import mhwang.com.dialog.SelectAccountDialog;
+import mhwang.com.dialog.SelectDateDialog;
 import mhwang.com.dialog.SelectTypeDialog;
 import mhwang.com.dialog.ShowBigPhotoActivity;
 import mhwang.com.dialog.TakePhotoDialog;
@@ -55,6 +56,7 @@ public class RecordMoneyActivity extends Activity {
     private Button btn_recordStatus;
     private TextView tv_recordType;
     private TextView tv_accountType;
+    private TextView tv_date;
     private EditText et_recordMoney;
     private EditText et_note;
     private ImageView ib_back;
@@ -69,7 +71,17 @@ public class RecordMoneyActivity extends Activity {
     private String photoPath = "";
     private String PHOTO_FILE_PATH;
 
-    TakePhotoDialog photoDialog;
+    private TakePhotoDialog photoDialog;
+
+    /**
+     * 记录的日期
+     */
+    private String date = null;
+
+    /**
+     *  是否修改过日期
+     */
+    private boolean modifyDate = false;
 
 
     private void showLog(String msg){
@@ -90,6 +102,27 @@ public class RecordMoneyActivity extends Activity {
         initEvent();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showData();
+    }
+
+    /**
+     *  显示数据
+     */
+    private void showData(){
+        if (modifyDate){
+            String[] dates = date.split("-");
+            String sdate = dates[0]+"年"+dates[1]+"月"+dates[2]+"日 "
+                    +DateUtil.getInstance().getCurrentTime();
+            showLog("select Date return date is "+sdate);
+            tv_date.setText(sdate);
+        }else {
+            tv_date.setText(date);
+        }
+    }
+
     /**
      *  初始化数据
      */
@@ -100,6 +133,9 @@ public class RecordMoneyActivity extends Activity {
         if (!file.exists()){
             file.mkdir();
         }
+        DateUtil dateUtil = DateUtil.getInstance();
+        date = dateUtil.getYear()+"年"+dateUtil.getMonth()+"月"
+                +dateUtil.getDay()+"日 "+dateUtil.getCurrentTime();
     }
 
     /**
@@ -165,6 +201,22 @@ public class RecordMoneyActivity extends Activity {
             }
         });
 
+        // 选择日期
+        tv_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateSelectDialog();
+            }
+        });
+
+    }
+
+    /**
+     *  打开日期选择对话框
+     */
+    private void showDateSelectDialog(){
+        Intent intent = new Intent(this, SelectDateDialog.class);
+        startActivityForResult(intent, Request.SELECT_DATE);
     }
 
     /**
@@ -234,10 +286,24 @@ public class RecordMoneyActivity extends Activity {
         record.setNote(note);
         record.setType(selectType);
         record.setTypeChild(selectTypeChild);
+        // 如果修改了日期，则存修改后的日期
+        int year;
+        int month;
+        int day;
         DateUtil util = DateUtil.getInstance();
-        record.setYear(util.getYear());
-        record.setMonth(util.getMonth());
-        record.setDay(util.getDay());
+        if (modifyDate){
+            String[] dates = date.split("-");
+            year = Integer.parseInt(dates[0]);
+            month = Integer.parseInt(dates[1]);
+            day = Integer.parseInt(dates[2]);
+        }else{
+            year = util.getYear();
+            month = util.getMonth();
+            day = util.getDay();
+        }
+        record.setYear(year);
+        record.setMonth(month);
+        record.setDay(day);
         record.setTime(util.getCurrentTime());
         record.setPhotoPath(photoPath);
         record.setUserId(UserUtil.getInstance().getCurUserId());
@@ -253,6 +319,7 @@ public class RecordMoneyActivity extends Activity {
         rl_selectAccount = (RelativeLayout) findViewById(R.id.rl_select_account);
         tv_recordType = (TextView) findViewById(R.id.tv_record_type);
         tv_accountType = (TextView) findViewById(R.id.tv_account_type);
+        tv_date = (TextView) findViewById(R.id.tv_record_money_date);
         btn_recordStatus = (Button) findViewById(R.id.btn_in_out);
         et_recordMoney = (EditText) findViewById(R.id.et_record_money);
         ib_back = (ImageView) findViewById(R.id.ib_record_money_back);
@@ -274,6 +341,8 @@ public class RecordMoneyActivity extends Activity {
      */
     private void changeRecordStatus(){
         btn_recordStatus.setText(isIn ? R.string.output:R.string.income);
+        selectType = isIn ? "食品酒水":"职业收入";
+        selectTypeChild = isIn ? "早午晚餐":"工资收入";
         tv_recordType.setText(isIn ? DEFALUT_OUTCOME_TYPE:DEFALUT_INCOME_TYPE);
         isIn = isIn ? false : true;
     }
@@ -317,9 +386,14 @@ public class RecordMoneyActivity extends Activity {
             case Request.RECORD_CAMERA:
                 showLog("take the photo path is "+photoPath);
                 Bitmap bitmap = PictureUtil.getBitmap(photoPath);
-                Bitmap newBitmap = PictureUtil.resizeBitmap(bitmap, rl_takePhoto.getWidth(),
-                        rl_takePhoto.getHeight());
-                iv_showPhoto.setImageBitmap(newBitmap);
+//                Bitmap newBitmap = PictureUtil.resizeBitmap(bitmap, rl_takePhoto.getWidth(),
+//                        rl_takePhoto.getHeight());
+//                iv_showPhoto.setImageBitmap(newBitmap);
+                iv_showPhoto.setImageBitmap(bitmap);
+                break;
+            case Request.SELECT_DATE:
+                date = data.getStringExtra(SelectDateDialog.KEY_SELECT_DATE);
+                modifyDate = true;
                 break;
         }
 

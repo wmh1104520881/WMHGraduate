@@ -117,19 +117,26 @@ public class BudgetActivity extends Activity {
      */
     private void initData() {
 //        budgets = readBudgets();
+        // 读取预算类型
         budgets = DBUtil.getInstance(this).readBudgetTypes();
+        // 计算本月每个预算的消费
         for (BudgetType budgetType : budgets){
             ArrayList<Record> records = DBUtil.getInstance(this).readRecordsByType(budgetType.getType());
             if (records == null){
                 continue;
             }
             double outcome = 0.00;
+            // 计算该预算下的消费
             for (Record record : records){
                 outcome += record.getMoney();
-                LogUitl.showLog("BudgetActivity","find the record money is "+record.getMoney());
             }
             budgetType.setOutcome(outcome);
-            budgetType.setSurplus(budgetType.getBudget() - outcome);
+            double surplus = budgetType.getBudget() - outcome;
+            budgetType.setSurplus(surplus);
+            // 设置进度条的值
+            if (surplus > 0){
+                budgetType.setValue(surplus/budgetType.getBudget() * 100);
+            }
         }
 
         Intent data = getIntent();
@@ -183,9 +190,14 @@ public class BudgetActivity extends Activity {
         if (budget.getBudget() != presetMoney) {
             budget.setBudget(presetMoney);
             budget.setModified(true);
+            DBUtil.getInstance(this).updateBudget(budget);
         }
         double surplus = presetMoney - budget.getOutcome();
         budget.setSurplus(surplus);
+        // 设置进度条的值
+        if (surplus > 0){
+            budget.setValue(surplus/budget.getBudget() * 100);
+        }
         setTotalBudget();
         updateTotalUI();
         adapter.notifyDataSetChanged();
@@ -196,6 +208,12 @@ public class BudgetActivity extends Activity {
     protected void onPause() {
         super.onPause();
         LogUitl.showLog("BudgetActivity", "onPause");
+        // 保存更改后的预算
+//        for (BudgetType type : budgets){
+//            if (type.isModified()){
+//                DBUtil.getInstance(this).updateBudge(type);
+//            }
+//        }
 //        Intent data = new Intent();
 //        data.putExtra(KEY_NEW_SURPLUS,useableMoney);
 //        LogUitl.showLog("BudgetActivity", "onPause money is "+useableMoney);
@@ -217,11 +235,5 @@ public class BudgetActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         LogUitl.showLog("BudgetActivity","onDestroy");
-        // 保存更改后的预算
-        for (BudgetType type : budgets){
-            if (type.isModified()){
-                DBUtil.getInstance(this).updateBudge(type);
-            }
-        }
     }
 }

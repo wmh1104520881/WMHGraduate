@@ -36,7 +36,8 @@ public class RecordListFragment extends Fragment {
     public static final int THIS_WEEK = 1;
     public static final int THIS_MONTH = 2;
     public static final int THIS_YEAR = 3;
-    public static final String[] TITLES = {"今天","本周","本月","本年"};
+    public static final String[] TITLES = {"今天","本周","本月","本年","现金",
+    "信用卡","支付宝","微信支付","饭卡","公交卡"};
 
     private View mView;
     private ListView lv_list;
@@ -254,6 +255,9 @@ public class RecordListFragment extends Fragment {
             case THIS_YEAR:
                 records = dbUtil.readRecordsByYear(year);
                 break;
+            // 以上都不是，即为账户界面跳转的
+            default:
+                records = dbUtil.readRecordsByAccount(TITLES[fragmentId]);
         }
         showLog("read the fragmentId "+fragmentId+" data!");
 

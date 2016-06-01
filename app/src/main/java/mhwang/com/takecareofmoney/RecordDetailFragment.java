@@ -26,6 +26,7 @@ import mhwang.com.dialog.SelectAccountDialog;
 import mhwang.com.dialog.SelectDateDialog;
 import mhwang.com.dialog.SelectTypeDialog;
 import mhwang.com.dialog.ShowBigPhotoActivity;
+import mhwang.com.util.LogUitl;
 import mhwang.com.util.NumberFormat;
 import mhwang.com.util.PictureUtil;
 
@@ -67,6 +68,7 @@ public class RecordDetailFragment extends Fragment {
      */
     private boolean isIn = false;
 
+
     /**
      *  选择的日期
      */
@@ -102,6 +104,9 @@ public class RecordDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         int recordId = getActivity().getIntent().getIntExtra(KEY_RECORD_ID,-1);
         record = DBUtil.getInstance(getActivity()).readRecordById(recordId);
+        if (record == null){
+            return;
+        }
         selectType = record.getType();
         selectTypeChild = record.getTypeChild();
         selectAccount = record.getAccount();
@@ -124,6 +129,7 @@ public class RecordDetailFragment extends Fragment {
         initComponent();
         initEvent();
         showData();
+        LogUitl.showLog("RecordDetailFragment","onCreateView");
         return mView;
     }
 
@@ -152,6 +158,9 @@ public class RecordDetailFragment extends Fragment {
      */
     private void showBigPhoto(){
         Intent intent = new Intent(getActivity(), ShowBigPhotoActivity.class);
+        if (record.getPhotoPath() == null || record.getPhotoPath().isEmpty()){
+            return;
+        }
         intent.putExtra(Request.KEY_PHOTO_PATH, record.getPhotoPath());
         startActivity(intent);
     }
@@ -165,9 +174,10 @@ public class RecordDetailFragment extends Fragment {
         }
         if (record.getPhotoPath() != null  && !record.getPhotoPath().equals("")) {
             Bitmap bitmap = PictureUtil.getBitmap(record.getPhotoPath());
-            Bitmap newBitmap = PictureUtil.resizeBitmap(bitmap, (int) getResources().getDimension(R.dimen.picture_width),
-                    (int) getResources().getDimension(R.dimen.picture_height));
-            iv_photo.setImageBitmap(newBitmap);
+//            Bitmap newBitmap = PictureUtil.resizeBitmap(bitmap, (int) getResources().getDimension(R.dimen.picture_width),
+//                    (int) getResources().getDimension(R.dimen.picture_height));
+//            iv_photo.setImageBitmap(newBitmap);
+            iv_photo.setImageBitmap(bitmap);
         }
         et_money.setText(NumberFormat.format(record.getMoney()));
         et_notes.setText(record.getNote());
@@ -379,7 +389,7 @@ public class RecordDetailFragment extends Fragment {
             case  Request.SELECT_DATE:
                 date = data.getStringExtra(SelectDateDialog.KEY_SELECT_DATE);
                 String[] dates = date.split("-");
-                String sdate = dates[0]+"年"+dates[1]+"月"+dates[2]+"日  "+record.getTime();
+                String sdate = dates[0]+"年"+dates[1]+"月"+dates[2]+"日 "+record.getTime();
                 tv_date.setText(sdate);
                 break;
         }

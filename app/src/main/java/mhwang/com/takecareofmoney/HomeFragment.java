@@ -220,6 +220,7 @@ public class HomeFragment extends PagerFragment {
         totalIn = 0.00;
         totalOut = 0.00;
         totalBudgetSurplus = 0.00;
+        totalBudget = 0.00;
         month = dateUtil.getMonth();
         year = dateUtil.getYear();
         ArrayList<Record> records = dbUtil.readRecordsByMonth(year,month);
@@ -392,6 +393,7 @@ public class HomeFragment extends PagerFragment {
         initData();
         initEvent();
         showData();
+        MainActivity.updateAdapter();
         showLog("onResume");
     }
 
@@ -418,6 +420,7 @@ public class HomeFragment extends PagerFragment {
         switch (requestCode){
             case REQUEST_CODE_PRESET_BUDGET:
                 totalBudget = data.getDoubleExtra(BudgetActivity.KEY_NEW_TOTAL_BUDGET,DEFAULT_MONEY);
+                showLog("preset budget");
                 break;
             case REQUEST_CODE_RECORD:
                 showLog("record money");

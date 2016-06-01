@@ -3,64 +3,134 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:paddingLeft="@dimen/margin_normal"
     android:layout_height="match_parent">
+    <!--标题栏-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/margin_normal"
+        android:paddingRight="@dimen/margin_normal"
+        android:id="@+id/rl_userinfo_title"
+        android:visibility="gone"
+        android:layout_height="@dimen/title_height">
+        <ImageView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
+            android:src="@drawable/ic_close"
+            android:background="@drawable/image_back_selector"
+            android:id="@+id/iv_userinfo_back" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal"
+            android:layout_centerInParent="true"
+            android:text="@string/modify"/>
+        <ImageView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
+            android:id="@+id/iv_userinfo_finish"
+            android:src="@drawable/ic_finish"
+            android:background="@drawable/image_back_selector"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
     <!--年龄-->
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/margin_normal"
         android:layout_height="@dimen/item_height_normal"
         android:orientation="horizontal">
         <TextView
             style="@style/label"
             android:text="@string/label_age"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_large"
-            android:id="@+id/tv_userinfo_age"/>
+        <EditText
+            style="@style/edit_input"
+            android:id="@+id/et_userinfo_age"
+            android:background="@null"
+            android:enabled="false"/>
+
     </LinearLayout>
 
     <!--性别-->
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/margin_normal"
         android:layout_height="@dimen/item_height_normal"
+        android:id="@+id/ll_userinfo_sex"
         android:orientation="horizontal">
         <TextView
             style="@style/label"
             android:text="@string/label_sex"/>
+        <EditText
+            style="@style/edit_input"
+            android:id="@+id/et_userinfo_sex"
+            android:background="@null"
+            android:enabled="false"/>
+    </LinearLayout>
+    <!--性别-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:id="@+id/ll_userinfo_sex_edit"
+        android:orientation="horizontal">
+
         <TextView
+            style="@style/label"
+            android:text="@string/label_sex"/>
+
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_large"
-            android:id="@+id/tv_userinfo_sex"/>
+            android:layout_marginLeft="@dimen/margin_large"
+            android:id="@+id/rg_userinfo_sex"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rb_userinfo_man"
+                android:text="@string/user_sex_man" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_sex_women" />
+        </RadioGroup>
     </LinearLayout>
 
     <!--电话号码-->
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/margin_normal"
         android:layout_height="@dimen/item_height_normal"
         android:orientation="horizontal">
         <TextView
             style="@style/label"
             android:text="@string/label_number"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_large"
-            android:id="@+id/tv_userinfo_number"/>
+        <EditText
+            style="@style/edit_input"
+            android:id="@+id/et_userinfo_number"
+            android:background="@null"
+            android:enabled="false"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height_normal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
             style="@style/label"
             android:text="@string/label_word"/>
-        <TextView
-            android:layout_width="wrap_content"
+
+        <EditText
+            style="@style/edit_input"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_large"
-            android:id="@+id/tv_userinfo_word"/>
+            android:minHeight="@dimen/item_height_normal"
+            android:id="@+id/et_userinfo_word"
+            android:background="@null"
+            android:enabled="false"/>
     </LinearLayout>
 
     <Button
@@ -70,6 +140,7 @@
         android:layout_marginLeft="@dimen/margin_normal"
         android:layout_marginRight="@dimen/margin_large"
         android:background="@drawable/button_selector"
+        android:id="@+id/btn_userinfo_modify"
         android:text="@string/modify"/>
 
 </LinearLayout>

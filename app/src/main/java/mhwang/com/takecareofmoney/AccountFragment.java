@@ -1,13 +1,16 @@
 package mhwang.com.takecareofmoney;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,6 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import mhwang.com.abstracts.PagerFragment;
+import mhwang.com.activity.RecordListActivity;
 import mhwang.com.adapter.AccountFragmentAdapter;
 import mhwang.com.bean.Account;
 import mhwang.com.bean.Record;
@@ -53,7 +57,7 @@ public class AccountFragment extends PagerFragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
+        Log.d("AccountFragment", "onCreate");
     }
 
     @Nullable
@@ -61,13 +65,16 @@ public class AccountFragment extends PagerFragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_account,null);
         initComponent();
-        initEvent();
         return mView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("AccountFragment", "onResume");
+        initData();
+        initEvent();
+        MainActivity.updateAdapter();
         showData();
     }
 
@@ -87,6 +94,15 @@ public class AccountFragment extends PagerFragment{
     private void initEvent(){
         adapter = new AccountFragmentAdapter(accounts,getActivity());
         mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), RecordListActivity.class);
+                // 加4是因为前面0123在首页的今天、本周、本月、本年被占用
+                intent.putExtra(RecordListFragment.KEY_WHICH_FRAGMENT,position+4);
+                startActivity(intent);
+            }
+        });
     }
 
     /**

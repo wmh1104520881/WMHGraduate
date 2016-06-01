@@ -16,7 +16,7 @@ import mhwang.com.takecareofmoney.MainActivity;
  * 创建时间：2016/5/23
  */
 public class SplashActivity extends Activity {
-    public static final int DELAY_TIME = 3000;
+    public static final int DELAY_TIME = 1000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

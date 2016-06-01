@@ -111,7 +111,8 @@ public class DBHelper extends SQLiteOpenHelper {
         for(int i = 0; i < accounts.length; i++){
             ContentValues values = new ContentValues();
             values.put("name",accounts[i]);
-            values.put("money",0.00);
+            values.put("income",0.00);
+            values.put("outcome",0.00);
             values.put("userId",0);
             db.insert("account",null,values);
         }

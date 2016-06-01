@@ -95,9 +95,9 @@ public class DetailExpandableAdapter extends BaseExpandableListAdapter{
         tv_name.setText(record.getType()+"->"+record.getTypeChild());
         String status = record.getStatus();
         if (status.equals("支出")){
-            tv_status.setTextColor(Color.GREEN);
-        }else{
             tv_status.setTextColor(Color.RED);
+        }else{
+            tv_status.setTextColor(Color.GREEN);
         }
         tv_status.setText(NumberFormat.format(record.getMoney()));
 

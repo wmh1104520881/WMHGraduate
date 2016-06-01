@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import mhwang.com.activity.RecordMoneyActivity;
+import mhwang.com.adapter.AccountSelectAdapter;
 import mhwang.com.bean.Request;
 import mhwang.com.takecareofmoney.R;
 
@@ -37,8 +38,7 @@ public class SelectAccountDialog  extends Activity {
      */
     private void initEvent() {
         final String[] accounts = getResources().getStringArray(R.array.accounts);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.select_dialog_singlechoice,accounts);
+        AccountSelectAdapter adapter = new AccountSelectAdapter(this,accounts);
         lv_selectAccount.setAdapter(adapter);
 
         lv_selectAccount.setOnItemClickListener(new AdapterView.OnItemClickListener() {

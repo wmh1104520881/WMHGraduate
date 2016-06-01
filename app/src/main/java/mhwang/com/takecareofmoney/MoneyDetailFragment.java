@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ import mhwang.com.util.NumberFormat;
 
 /**
  * 项目名称：
- * 类描述：
+ * 类描述： 清单界面
  * 作者：王明海
  * 创建时间：2016/4/7
  */
@@ -66,7 +67,7 @@ public class MoneyDetailFragment extends PagerFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         year = DateUtil.getInstance().getYear();
-        initData();
+        Log.d("MoneyDetailFragment", "onCreate");
     }
 
     @Nullable
@@ -76,14 +77,18 @@ public class MoneyDetailFragment extends PagerFragment {
         LogUitl.showLog("MoneyDetailFragment", "onCreateView");
 
         initComponent();
-        initEvent();
         return mView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        initData();
+        initEvent();
         showData();
+        // 刷新页面
+        MainActivity.updateAdapter();
+        Log.d("MoneyDetailFragment", "onCreate");
     }
 
     /**
@@ -241,7 +246,7 @@ public class MoneyDetailFragment extends PagerFragment {
 
 
 
-    /** 读取月份下的记录
+    /** 读取月份下的记录(测试数据)
      * @return
      */
     private List<ArrayList<Record>> readMonthRecords(){

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
@@ -46,6 +47,10 @@ public class MainActivity extends FragmentActivity {
     public static final int REPORT = 3;
     public static final int MORE = 4;
 
+    private int[] images = {R.drawable.t1,R.drawable.t2,R.drawable.t3,
+            R.drawable.t4,R.drawable.t5,R.drawable.t6,
+            R.drawable.t7,R.drawable.t8,R.drawable.t9};
+
 
 
     /**
@@ -61,7 +66,7 @@ public class MainActivity extends FragmentActivity {
     /**
      *  界面切换的适配器
      */
-    private PagerAdapter pagerAdapter;
+    private static PagerAdapter pagerAdapter;
 
     /**
      *  菜单组
@@ -82,10 +87,22 @@ public class MainActivity extends FragmentActivity {
     private Button btn_logout;
     private TextView tv_userName;
 
+    /**
+     *  用户头像
+     */
+    private ImageView iv_userPhoto;
+
     private void showLog(String msg){
-        Log.e("---MainActivity--->",msg);
+        Log.e("---MainActivity--->", msg);
     }
 
+    /**
+     *  更新页面
+     */
+    public static void updateAdapter(){
+        pagerAdapter.notifyDataSetChanged();
+        LogUitl.showLog("MainActivity","updateAdapter");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,8 +141,8 @@ public class MainActivity extends FragmentActivity {
             public void onPageSelected(int i) {
                 LogUitl.showLog("MainActivity","onPageSelected"+i);
                 mMenuButtons[i].setChecked(true);
-                PagerFragment fragment = (PagerFragment) mFragments.get(i);
-                fragment.updateData();
+//                PagerFragment fragment = (PagerFragment) mFragments.get(i);
+//                fragment.updateData();
             }
 
             @Override
@@ -158,8 +175,8 @@ public class MainActivity extends FragmentActivity {
 
                 if (which != -1) {
                     mViewPager.setCurrentItem(which);
-                    PagerFragment fragment = (PagerFragment) mFragments.get(which);
-                    fragment.updateData();
+//                    PagerFragment fragment = (PagerFragment) mFragments.get(which);
+//                    fragment.updateData();
                 }
             }
         });
@@ -175,6 +192,8 @@ public class MainActivity extends FragmentActivity {
                 UserUtil.getInstance().logOutToDefaultUser();
                 // 将登陆的用户设置成默认用户
                 tv_userName.setText("欢迎你,"+UserUtil.getInstance().getCurUser().getName());
+                // 图片恢复为默认
+                iv_userPhoto.setImageResource(R.drawable.ic_user_photo);
                 int curItem = mViewPager.getCurrentItem();
                 PagerFragment fragment = (PagerFragment)mFragments.get(curItem);
                 fragment.updateData();
@@ -197,6 +216,7 @@ public class MainActivity extends FragmentActivity {
         mMenuButtons[MORE] = (RadioButton) findViewById(R.id.rb_more);
         btn_logout = (Button) findViewById(R.id.btn_logout);
         tv_userName = (TextView) findViewById(R.id.tv_user_name);
+        iv_userPhoto = (ImageView) findViewById(R.id.iv_user_photo);
 
         // 设置默认的抽屉fragment
         setDefaultDrawerFragment();
@@ -228,7 +248,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     /**
-     *  添加登陆Fragment
+     *  添加登陆后的Fragment
      */
     private void addLoginFragment(User user){
         showLog("Line 234 show UserInfo");
@@ -236,10 +256,26 @@ public class MainActivity extends FragmentActivity {
         FragmentTransaction ftUif = fm.beginTransaction();
         // 将登陆的用户设置成当前用户
         UserUtil.getInstance().setCurUser(user);
+        // 更新当前页数据
         int curItem = mViewPager.getCurrentItem();
         PagerFragment fragment = (PagerFragment)mFragments.get(curItem);
         fragment.updateData();
+        // 如果当前页的前一页存在，更新前一页数据
+        if (curItem -1 >0){
+            PagerFragment fragment1 = (PagerFragment)mFragments.get(curItem-1);
+            fragment1.updateData();
+        }
+        // 如果当前页的后一页存在，更新后一页数据
+        if (curItem + 1 < 4){
+            PagerFragment fragment2 = (PagerFragment)mFragments.get(curItem+1);
+            fragment2.updateData();
+        }
         tv_userName.setText(user.getName());
+        // 设置登陆用户头像
+        int imageIndex = Integer.parseInt(user.getPhoto());
+        if (imageIndex != -1){
+            iv_userPhoto.setImageResource(images[imageIndex]);
+        }
         btn_logout.setVisibility(View.VISIBLE);
         // 添加用户信息界面，隐藏登陆界面，登陆成功后显示退出按钮
         ftUif.add(R.id.fl_user_login_status, uif);

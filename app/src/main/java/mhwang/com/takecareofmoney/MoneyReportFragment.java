@@ -85,6 +85,7 @@ public class MoneyReportFragment extends PagerFragment {
         // 获取当前月份
         int curMonth = DateUtil.getInstance().getMonth();
         getMonthData(year, curMonth);
+        showLog("onCreate");
     }
 
     @Nullable
