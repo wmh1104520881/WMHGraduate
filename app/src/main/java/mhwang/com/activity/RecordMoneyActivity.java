@@ -361,6 +361,7 @@ public class RecordMoneyActivity extends Activity {
      */
     private void showSelectAccountDialog(){
         Intent intent = new Intent(this, SelectAccountDialog.class);
+        intent.putExtra(SelectAccountDialog.KEY_IN_OUT,isIn);
         startActivityForResult(intent, Request.SELECT_ACCOUNT);
 
     }

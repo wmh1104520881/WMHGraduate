@@ -57,9 +57,9 @@ public class MoneyDetailFragment extends PagerFragment {
 
 
 
-    private double totalIncome = 0.00;
-    private double totalOutcome = 0.00;
-    private double totalSurplus = 0.00;
+    private double totalIncome ;
+    private double totalOutcome ;
+    private double totalSurplus ;
 
     private int year;
 
@@ -174,6 +174,9 @@ public class MoneyDetailFragment extends PagerFragment {
         // 模拟数据
 //        groups = readMonthGroups();
 //        childs = readMonthRecords();
+        totalIncome = 0.00;
+        totalOutcome = 0.00;
+        totalSurplus = 0.00;
 
         groups = new ArrayList<>();
         childs = new ArrayList<>();

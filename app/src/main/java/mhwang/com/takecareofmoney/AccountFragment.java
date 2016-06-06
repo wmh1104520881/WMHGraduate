@@ -48,10 +48,10 @@ public class AccountFragment extends PagerFragment{
     private TextView tv_totalNetAsset;
     private TextView tv_totalNegativeAsset;
 
-    private double totalIncome = 0.00;
-    private double totalOutcome = 0.00;
-    private double totalSurplus = 0.00;
-    private double negativeAsset = 0.00;
+    private double totalIncome ;
+    private double totalOutcome ;
+    private double totalSurplus ;
+    private double negativeAsset ;
     private DBUtil dbUtil;
 
     @Override
@@ -120,6 +120,10 @@ public class AccountFragment extends PagerFragment{
     private void initData() {
         dbUtil = DBUtil.getInstance(getActivity());
         accounts = dbUtil.readAccounts();
+        totalIncome = 0.00;
+        totalOutcome = 0.00;
+        totalSurplus = 0.00;
+        negativeAsset = 0.00;
         getDataFromDB();
     }
 

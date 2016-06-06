@@ -138,11 +138,14 @@ public class DBHelper extends SQLiteOpenHelper {
         int curDay = util.getDay();
         // 从2010年的数据开始插入
         int earlyYear = 2010;
-        for (int i = earlyYear; i <= curYear; i++) {
+        int month = 12;
+        int day = 30;
+        // 添加今年以前的数据
+        for (int i = earlyYear; i < curYear; i++) {
             // 月份
-            for (int j = 1; j <= 12; j++) {
+            for (int j = 1; j <= month; j++) {
                 // 日
-                for (int h = 1; h < 30; h++) {
+                for (int h = 1; h <= day; h++) {
                     int recordCount = 5;
                     for (int c = 0; c <= recordCount; c++) {
                         Record record = createRecord(i, j, h);
@@ -151,7 +154,19 @@ public class DBHelper extends SQLiteOpenHelper {
                 }
             }
         }
-
+        // 添加今年的数据
+        for (int m = 1; m <= curMonth; m++){
+            if (m == curMonth){
+                day = curDay;
+            }
+            for (int d = 1; d <= day; d++){
+                int recordCount = 5;
+                for (int c = 0; c < recordCount; c++) {
+                    Record record = createRecord(curYear, m, d);
+                    insertRecord(record, db);
+                }
+            }
+        }
     }
 
     private void showLog(String str){

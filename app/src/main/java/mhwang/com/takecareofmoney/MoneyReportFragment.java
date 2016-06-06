@@ -166,6 +166,8 @@ public class MoneyReportFragment extends PagerFragment {
     private void resetMonthsData(){
         for(int i = 0; i < ONE_YEAR_MONTH; i++){
             monthIncomes[i] = 0.00;
+            monthSurpluses[i] = 0.00;
+            monthOutcomes[i] = 0.00;
         }
     }
 
@@ -420,7 +422,7 @@ public class MoneyReportFragment extends PagerFragment {
     private void updateLineData(int month,float range){
         LogUitl.showLog("MoneyReportFragment","update the month "+month+" line data");
         // 读取这个月份的每一天的数据
-        int year = DateUtil.getInstance().getYear();
+//        int year = DateUtil.getInstance().getYear();
         double[] dayIncomes = new double[LINE_DAYS];
         double[] dayOutcomes = new double[LINE_DAYS];
         DBUtil util = DBUtil.getInstance(getActivity());

@@ -22,6 +22,7 @@ import mhwang.com.takecareofmoney.R;
  */
 public class SelectAccountDialog  extends Activity {
     private ListView lv_selectAccount;
+    public static final String KEY_IN_OUT = "in_out";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,14 @@ public class SelectAccountDialog  extends Activity {
      *  添加事件处理
      */
     private void initEvent() {
-        final String[] accounts = getResources().getStringArray(R.array.accounts);
+        boolean isIn = getIntent().getBooleanExtra(KEY_IN_OUT,false);
+        final String[] accounts;
+        // 如果是支出状态，则选择支出的账户，否则选择收入的账户
+        if (!isIn) {
+            accounts = getResources().getStringArray(R.array.accounts);
+        }else{
+            accounts = getResources().getStringArray(R.array.accounts_in);
+        }
         AccountSelectAdapter adapter = new AccountSelectAdapter(this,accounts);
         lv_selectAccount.setAdapter(adapter);
 
